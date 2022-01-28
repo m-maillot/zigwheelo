@@ -1,5 +1,13 @@
 enableFeaturePreview("VERSION_CATALOGS")
 
-rootProject.name = "io.zigweelo.backend"
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
 
-include("server", "crawler")
+rootProject.name = "ZigWheelo"
+
+include("android", "server", "crawler", "database", "web-client", "api")

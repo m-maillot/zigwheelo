@@ -1,6 +1,7 @@
 plugins {
     application
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm")
+    kotlin("plugin.serialization")
 }
 
 group = "fr.racomach"
@@ -10,6 +11,8 @@ application {
 }
 
 dependencies {
+    implementation(project(":api"))
+    implementation(project(":database"))
     implementation(libs.bundles.serverDependencies)
     testImplementation(libs.bundles.testDependencies)
 }

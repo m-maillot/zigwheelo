@@ -1,6 +1,6 @@
 package fr.racomach
 
-import fr.racomach.plugins.configureRouting
+import fr.racomach.server.plugins.configureRouting
 import io.ktor.http.*
 import io.ktor.server.testing.*
 import kotlin.test.Test

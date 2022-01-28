@@ -3,39 +3,111 @@ ktor = "2.0.0-beta-1"
 logback = "1.2.6"
 kotlin = "1.6.10"
 kotlinx-serialization = "1.3.1"
+kmongo = "4.4.0"
+arrow = "1.0.1"
+compose = "1.1.0-rc01"
+composeCompiler = "1.1.0-rc03"
+coreKtx = "1.7.0"
+material3 = "1.0.0-alpha02"
+lifecycle = "2.3.1"
+activityCompose = "1.3.1"
+coroutines = "1.5.2-native-mt"
 
 [libraries]
-ktorServerCallLogging = { module="io.ktor:ktor-server-call-logging", version.ref="ktor" }
-ktorServerContentNegociation = { module="io.ktor:ktor-server-content-negotiation", version.ref="ktor" }
-ktorServerCore = { module="io.ktor:ktor-server-core", version.ref="ktor" }
-ktorServerSerializationJson = { module="io.ktor:ktor-serialization-jackson", version.ref="ktor" }
-ktorServerCio = { module="io.ktor:ktor-server-cio", version.ref="ktor" }
+ktorServerCallLogging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
+ktorServerContentNegociation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
+ktorServerCors = { module = "io.ktor:ktor-server-cors", version.ref = "ktor" }
+ktorServerCore = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktorServerSerializationJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktorServerCio = { module = "io.ktor:ktor-server-cio", version.ref = "ktor" }
 
-ktorClient = { module="io.ktor:ktor-client-core", version.ref="ktor" }
-ktorClientCio = { module="io.ktor:ktor-client-cio", version.ref="ktor" }
-ktorClientJson = { module="io.ktor:ktor-serialization-kotlinx-json", version.ref="ktor" }
-ktorClientContentNegociation = { module="io.ktor:ktor-client-content-negotiation", version.ref="ktor" }
-kotlinx-serialization = { module="org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref="kotlinx-serialization" }
+ktorClient = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+kotlinCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinCoroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+ktorClientLogging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktorClientJson = { module = "io.ktor:ktor-client-json", version.ref = "ktor" }
+ktorClientCio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktorClientJs = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
+ktorClientAndroid = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktorClientKotlinxJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktorClientContentNegociation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
-logback = { module="ch.qos.logback:logback-classic", version.ref="logback" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
-ktorServerTests = { module="io.ktor:ktor-server-tests", version.ref="ktor" }
-kotlinTest = { module="org.jetbrains.kotlin:kotlin-test-junit", version.ref="kotlin" }
+ktorServerTests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor" }
+kotlinTest = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+
+kmongo = { module = "org.litote.kmongo:kmongo-serialization", version.ref = "kmongo" }
+kmongoCoroutine = { module = "org.litote.kmongo:kmongo-coroutine-serialization", version.ref = "kmongo" }
+
+arrow = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+
+androidCoreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidComposeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" }
+androidComposeUi = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+androidComposeMaterial3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+androidComposeUiPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+androidLifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidActivityCompose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 
 [bundles]
 serverDependencies = [
-  "ktorServerCallLogging",
-  "ktorServerContentNegociation",
-  "ktorServerCore",
-  "ktorServerSerializationJson",
-  "ktorServerCio",
-  "logback",
+    "ktorServerCallLogging",
+    "ktorServerCors",
+    "ktorServerContentNegociation",
+    "ktorServerCore",
+    "ktorServerSerializationJson",
+    "ktorServerCio",
+    "logback",
+    "arrow",
 ]
 testDependencies = ["ktorServerTests", "kotlinTest"]
+
 crawlerDependencies = [
-  "ktorClient",
-  "ktorClientCio",
-  "ktorClientJson",
-  "ktorClientContentNegociation",
-  "kotlinx-serialization"
+    "ktorClient",
+    "ktorClientCio",
+    "ktorClientJson",
+    "ktorClientKotlinxJson",
+    "ktorClientContentNegociation",
+    "kotlinx-serialization",
+    "arrow",
+]
+databaseDependencies = [
+    "kmongo",
+    "kmongoCoroutine",
+    "kotlinx-serialization",
+    "arrow",
+]
+
+apiDependencies = [
+    "ktorClient",
+    "kotlinCoroutines",
+    "ktorClientJson",
+    "ktorClientKotlinxJson",
+    "ktorClientContentNegociation",
+    "kotlinx-serialization",
+]
+
+apiJvmDependencies = [
+    "ktorClientCio",
+]
+
+apiJsDependencies = [
+    "ktorClientJs",
+]
+
+apiAndroidDependencies = [
+    "ktorClientAndroid",
+    "kotlinCoroutinesAndroid",
+]
+
+androidDependencies = [
+    "androidCoreKtx",
+    "androidComposeCompiler",
+    "androidComposeUi",
+    "androidComposeMaterial3",
+    "androidComposeUiPreview",
+    "androidLifecycle",
+    "androidActivityCompose",
 ]
