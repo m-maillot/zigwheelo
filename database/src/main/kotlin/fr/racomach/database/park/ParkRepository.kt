@@ -11,7 +11,10 @@ import org.litote.kmongo.util.KMongoUtil
 interface ParkRepository {
     fun upsertParks(parks: List<ParkInput>): Either<Throwable, UpsertResult>
 
-    fun nearestParks(position: Position, distance: Int): Either<Throwable, MongoIterable<ParkOutput>>
+    fun nearestParks(
+        position: Position,
+        distance: Int
+    ): Either<Throwable, MongoIterable<ParkOutput>>
 
     data class Position(
         val latitude: Double,
@@ -31,7 +34,12 @@ class ParkDatabase(db: MongoDatabase) : ParkRepository {
     private val collection = db.getCollection<ParkEntity>("park_entity")
 
     override fun upsertParks(parks: List<ParkInput>) = Either.catch {
-        (listOf(updateMany<ParkEntity>(EMPTY_BSON, setValue(ParkEntity::valid, false))) + createUpsertBulk(parks))
+        (listOf(
+            updateMany<ParkEntity>(
+                EMPTY_BSON,
+                setValue(ParkEntity::valid, false)
+            )
+        ) + createUpsertBulk(parks))
             .let { collection.bulkWrite(it) }
             .let {
                 ParkRepository.UpsertResult(
@@ -56,11 +64,24 @@ class ParkDatabase(db: MongoDatabase) : ParkRepository {
     private fun count(valid: Boolean) = collection.countDocuments(ParkEntity::valid eq valid)
 
     private fun createUpsertBulk(parks: List<ParkInput>) =
-        parks.map { updateOne<ParkEntity>(ParkEntity::externalId eq it.externalId, it.toBsonEntity(), upsert()) }
+        parks.map {
+            updateOne<ParkEntity>(
+                ParkEntity::externalId eq it.externalId,
+                it.toBsonEntity(),
+                upsert()
+            )
+        }
 
     private fun ParkInput.toBsonEntity() = KMongoUtil.toBsonModifier(
         ParkEntity(
-            externalId, address, city, place, sheltered, spot, ParkEntity.Location(listOf(longitude, latitude)), true
+            externalId,
+            address,
+            city,
+            place,
+            sheltered,
+            spot,
+            ParkEntity.Location(listOf(longitude, latitude)),
+            true
         ),
         false,
     )
@@ -73,7 +94,7 @@ class ParkDatabase(db: MongoDatabase) : ParkRepository {
         place,
         sheltered,
         spot,
-        ParkOutput.Location(location.coordinates[0], location.coordinates[1])
+        ParkOutput.Location(longitude = location.coordinates[0], latitude = location.coordinates[1])
     )
 
 }

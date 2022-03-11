@@ -8,10 +8,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.serialization.json.Json
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.H1
-import org.jetbrains.compose.web.dom.Span
-import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.*
 import org.jetbrains.compose.web.renderComposable
 
 @InternalCoroutinesApi
@@ -31,14 +28,21 @@ fun main() {
         Style(TextStyles)
 
         var parks by remember { mutableStateOf(emptyList<FindParksResult.Park>()) }
+        val latitude = remember { mutableStateOf<String>("45.742989978188945") }
 
         LaunchedEffect(true) {
             parks = api.searchParks(45.742989978188945, 4.851021720981201, 500).park
         }
 
         Div(attrs = { style { padding(16.px) } }) {
+            Div(attrs = { style { border { color(rgb(23, 24, 28)) } } }) {
+                TextInput(value = latitude.value) {
+                    onInput { event -> latitude.value = event.value }
+                }
+            }
+
             H1(attrs = { classes(TextStyles.titleText) }) {
-                Text("Parks result")
+                Text("Résultats:")
             }
 
             parks.forEach { park ->

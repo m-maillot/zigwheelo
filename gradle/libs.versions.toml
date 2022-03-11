@@ -5,13 +5,16 @@ kotlin = "1.6.10"
 kotlinx-serialization = "1.3.1"
 kmongo = "4.4.0"
 arrow = "1.0.1"
-compose = "1.1.0-rc01"
-composeCompiler = "1.1.0-rc03"
-coreKtx = "1.7.0"
-material3 = "1.0.0-alpha02"
+compose-version = "1.2.0-alpha03"
+compose-compiler-version = "1.2.0-alpha03"
+core-ktx = "1.7.0"
+material = "1.5.0"
 lifecycle = "2.3.1"
 activityCompose = "1.3.1"
 coroutines = "1.5.2-native-mt"
+play-services-maps = "18.0.2"
+maps-ktx = "3.3.0"
+maps-compose = "1.3.0"
 
 [libraries]
 ktorServerCallLogging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
@@ -43,13 +46,17 @@ kmongoCoroutine = { module = "org.litote.kmongo:kmongo-coroutine-serialization",
 
 arrow = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 
-androidCoreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
-androidComposeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" }
-androidComposeUi = { module = "androidx.compose.ui:ui", version.ref = "compose" }
-androidComposeMaterial3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
-androidComposeUiPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
-androidLifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
-androidActivityCompose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+android-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+android-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler-version" }
+android-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-version" }
+android-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-version" }
+android-compose-material = { module = "androidx.compose.material:material", version.ref = "compose-version" }
+android-compose-ui-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-version" }
+android-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+android-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+android-google-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "play-services-maps" }
+android-google-maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }
+android-maps-ktx = { module = "com.google.maps.android:maps-ktx", version.ref = "maps-ktx" }
 
 [bundles]
 serverDependencies = [
@@ -103,11 +110,16 @@ apiAndroidDependencies = [
 ]
 
 androidDependencies = [
-    "androidCoreKtx",
-    "androidComposeCompiler",
-    "androidComposeUi",
-    "androidComposeMaterial3",
-    "androidComposeUiPreview",
-    "androidLifecycle",
-    "androidActivityCompose",
+    "android-core-ktx",
+    "android-compose-compiler",
+    "android-compose-foundation",
+    "android-compose-ui",
+    "android-compose-material",
+    "android-compose-ui-preview",
+    "android-google-maps",
+    "android-maps-ktx",
+    "android-lifecycle",
+    "android-activity-compose",
+    "android-google-maps-compose",
+    "arrow",
 ]
