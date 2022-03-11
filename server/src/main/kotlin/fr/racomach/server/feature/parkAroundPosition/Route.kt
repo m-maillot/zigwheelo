@@ -14,6 +14,7 @@ fun Application.findParkAroundPosition(
         get("/api/parks/search") {
             extractParam(call)
                 .flatMap { findParkAroundPosition.run(it) }
+                .also { print("Result: $it") }
                 .toRespond(call)
         }
     }
