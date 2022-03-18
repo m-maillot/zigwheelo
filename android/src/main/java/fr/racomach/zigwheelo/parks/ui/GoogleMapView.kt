@@ -2,7 +2,6 @@ package fr.racomach.zigwheelo.parks.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.google.android.gms.maps.model.CameraPosition
@@ -10,6 +9,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.*
 import fr.racomach.zigwheelo.R
+import fr.racomach.zigwheelo.common.hasLocationPermissions
 import fr.racomach.zigwheelo.parks.model.Park
 import fr.racomach.zigwheelo.utils.getBitmapDescriptor
 
@@ -34,13 +34,11 @@ fun GoogleMapView(
             mapStyleOptions = MapStyleOptions.loadRawResourceStyle(
                 LocalContext.current,
                 R.raw.gmap_style
-            )
+            ),
+            isMyLocationEnabled = LocalContext.current.hasLocationPermissions(),
         ),
         uiSettings = MapUiSettings(),
     ) {
-        Marker(
-            position = myLocation
-        )
         parks.map { park ->
             Marker(
                 icon = getBitmapDescriptor(
