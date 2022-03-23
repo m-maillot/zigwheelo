@@ -6,6 +6,7 @@ plugins {
 
 group = "fr.racomach"
 version = "0.0.1"
+
 application {
     mainClass.set("fr.racomach.ApplicationKt")
 }

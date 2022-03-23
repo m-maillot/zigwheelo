@@ -4,10 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FindParksResult(
-    val park: List<Park>,
+    val park: List<ParkResult>,
 ) {
     @Serializable
-    data class Park(
+    data class ParkResult(
         val id: String,
         val address: String,
         val location: Position,

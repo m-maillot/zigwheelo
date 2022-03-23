@@ -1,12 +1,12 @@
 package fr.racomach.zigwheelo.parks.model
 
-data class Park(
+data class ParkModel(
     val id: String,
     val address: String,
-    val location: Position,
+    val location: PositionModel,
 )
 
-data class Position(
+data class PositionModel(
     val latitude: Double,
     val longitude: Double,
 )

@@ -9,13 +9,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.google.android.gms.maps.model.LatLng
-import fr.racomach.zigwheelo.MainViewModel
+import fr.racomach.api.model.Park
+import fr.racomach.api.usecase.SearchParkState
+import fr.racomach.zigwheelo.parks.model.ParkModel
+import fr.racomach.zigwheelo.parks.model.PositionModel
 
 @Composable
-fun MainScreen(state: MainViewModel.State) {
+fun MainScreen(state: SearchParkState) {
     Box(modifier = Modifier.fillMaxSize()) {
         when (state) {
-            is MainViewModel.State.Error -> {
+            is SearchParkState.Error -> {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -24,10 +27,10 @@ fun MainScreen(state: MainViewModel.State) {
                     color = Color.Red,
                 )
             }
-            is MainViewModel.State.Loaded -> {
+            is SearchParkState.Loaded -> {
 
             }
-            MainViewModel.State.Loading -> {
+            SearchParkState.Loading -> {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -39,8 +42,14 @@ fun MainScreen(state: MainViewModel.State) {
         }
         GoogleMapView(
             myLocation = LatLng(45.742989978188945, 4.851021720981201),
-            parks = if (state is MainViewModel.State.Loaded) state.parks else emptyList(),
+            parks = if (state is SearchParkState.Loaded) state.parks.map { it.toModel() } else emptyList(),
             onClick = {}
         )
     }
 }
+
+private fun Park.toModel() = ParkModel(
+    id = id,
+    address = address,
+    location = PositionModel(latitude = location.latitude, longitude = location.longitude)
+)
