@@ -1,11 +1,11 @@
 package fr.racomach.api
 
-import fr.racomach.api.parks.FindParksResult
+import fr.racomach.api.response.FindParksResult
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 
-class ZigWheeloApi(
+class ZigWheeloApi internal constructor(
     private val client: HttpClient,
     private val baseUrl: String,
 ) {
@@ -15,4 +15,6 @@ class ZigWheeloApi(
             parameter("longitude", longitude)
             parameter("distance", distance)
         }.body<FindParksResult>()
+
+    companion object
 }

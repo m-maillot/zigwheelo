@@ -10,14 +10,14 @@ import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.*
 import fr.racomach.zigwheelo.R
 import fr.racomach.zigwheelo.common.hasLocationPermissions
-import fr.racomach.zigwheelo.parks.model.Park
+import fr.racomach.zigwheelo.parks.model.ParkModel
 import fr.racomach.zigwheelo.utils.getBitmapDescriptor
 
 @Composable
 fun GoogleMapView(
     myLocation: LatLng,
-    parks: List<Park>,
-    onClick: (Park) -> Unit
+    parks: List<ParkModel>,
+    onClick: (ParkModel) -> Unit
 ) {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(myLocation, 17f)

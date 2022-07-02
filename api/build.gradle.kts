@@ -17,6 +17,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    namespace = "fr.racomach.api"
 }
 
 kotlin {
@@ -32,13 +33,23 @@ kotlin {
         browser()
     }
 
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "api"
+        }
+    }
+
     sourceSets {
-        commonMain {
+        val commonMain by getting {
             dependencies {
                 api(libs.bundles.apiDependencies)
             }
         }
-        commonTest {
+        val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
@@ -57,6 +68,20 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(libs.bundles.apiJvmDependencies)
+            }
+        }
+
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+        val iosMain by creating {
+            dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+                //Network
+                implementation(libs.bundles.apiIOSDependencies)
             }
         }
     }

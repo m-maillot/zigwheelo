@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Crawler" type="JetRunConfigurationType">
+    <envs>
+      <env name="MONGODB_URI" value="mongodb://ucnh9eivqybgzmpllp7e:1OpFg0ZnjK7PTo71bO5b@bvqt5sg4gmemb67-mongodb.services.clever-cloud.com:27017/bvqt5sg4gmemb67" />
+      <env name="MONGODB_DATABASE" value="bvqt5sg4gmemb67" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="fr.racomach.crawler.MainKt" />
+    <module name="ZigWheelo.crawler" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

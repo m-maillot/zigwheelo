@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Start API" type="JetRunConfigurationType">
+    <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk-18.jdk/Contents/Home" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <envs>
+      <env name="MONGODB_URI" value="mongodb://ucnh9eivqybgzmpllp7e:1OpFg0ZnjK7PTo71bO5b@bvqt5sg4gmemb67-mongodb.services.clever-cloud.com:27017/bvqt5sg4gmemb67" />
+      <env name="MONGODB_DATABASE" value="bvqt5sg4gmemb67" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="fr.racomach.server.ApplicationKt" />
+    <module name="ZigWheelo.server" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
