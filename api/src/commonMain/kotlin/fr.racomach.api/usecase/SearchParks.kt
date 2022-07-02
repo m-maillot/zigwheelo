@@ -2,8 +2,8 @@ package fr.racomach.api.usecase
 
 import fr.racomach.api.ZigWheeloApi
 import fr.racomach.api.model.Park
-import fr.racomach.api.parks.FindParksResult
-import fr.racomach.api.parks.Position
+import fr.racomach.api.response.FindParkResult
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -43,6 +43,7 @@ class SearchParks(
     override fun observeSideEffect(): Flow<SearchParkEffect> = sideEffect
 
     override fun dispatch(action: SearchParkAction) {
+        Napier.v(tag = "SearchParks", message = "Action: $action")
         val oldState = state.value
         val newState: SearchParkState = when (action) {
             is SearchParkAction.Search -> {
@@ -70,7 +71,7 @@ class SearchParks(
         }
     }
 
-    private fun FindParksResult.ParkResult.toPark() = Park(
+    private fun FindParkResult.toPark() = Park(
         id = id,
         address = address,
         location = fr.racomach.api.model.Position(

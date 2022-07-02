@@ -1,6 +1,10 @@
 import fr.racomach.api.ZigWheeloApi
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 
-fun ZigWheeloApi.Companion.create(baseUrl: String) = ZigWheeloApi(
-    JsHttpClient(),
+fun ZigWheeloApi.Companion.create(baseUrl: String, withLog: Boolean) = ZigWheeloApi(
+    JsHttpClient(withLog),
     baseUrl,
-)
+).also {
+    if (withLog) Napier.base(DebugAntilog())
+}

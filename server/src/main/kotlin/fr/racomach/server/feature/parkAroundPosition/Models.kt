@@ -1,4 +1,4 @@
-package fr.racomach.api.parks
+package fr.racomach.server.feature.parkAroundPosition
 
 import kotlinx.serialization.Serializable
 
@@ -13,3 +13,9 @@ data class FindParksResult(
         val location: Position,
     )
 }
+
+@Serializable
+data class Position(
+    val latitude: Double,
+    val longitude: Double,
+)

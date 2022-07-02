@@ -1,5 +1,6 @@
 package fr.racomach.zigwheelo.parks.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import com.google.android.gms.maps.model.LatLng
 import fr.racomach.api.model.Park
 import fr.racomach.api.usecase.SearchParkState
@@ -22,13 +24,13 @@ fun MainScreen(state: SearchParkState) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .background(Color.Red)
                         .align(Alignment.Center),
                     text = "Erreur durant le chargement...",
                     color = Color.Red,
                 )
             }
             is SearchParkState.Loaded -> {
-
             }
             SearchParkState.Loading -> {
                 Text(
@@ -53,3 +55,9 @@ private fun Park.toModel() = ParkModel(
     address = address,
     location = PositionModel(latitude = location.latitude, longitude = location.longitude)
 )
+
+@Preview
+@Composable
+fun MainScreenPreview() {
+    MainScreen(state = SearchParkState.Loading)
+}

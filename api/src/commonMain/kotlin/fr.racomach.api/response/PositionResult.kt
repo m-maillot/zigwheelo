@@ -1,9 +1,9 @@
-package fr.racomach.api.parks
+package fr.racomach.api.response
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Position(
+data class PositionResult(
     val latitude: Double,
     val longitude: Double,
 )

@@ -1,6 +1,6 @@
 package fr.racomach.api
 
-import fr.racomach.api.parks.FindParksResult
+import fr.racomach.api.response.FindParksResult
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*

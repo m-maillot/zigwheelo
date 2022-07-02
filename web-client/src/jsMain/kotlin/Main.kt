@@ -1,4 +1,5 @@
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import fr.racomach.api.ZigWheeloApi
@@ -13,13 +14,13 @@ import org.jetbrains.compose.web.renderComposable
 @InternalCoroutinesApi
 fun main() {
 
-    val searchParks = SearchParks(ZigWheeloApi.create("http://localhost:8080"))
+    val searchParks = SearchParks(ZigWheeloApi.create("http://localhost:8080", true))
 
     renderComposable(rootElementId = "root") {
         Style(TextStyles)
 
-        val state = searchParks.observeState().value
-        val latitude = remember { mutableStateOf<String>("45.742989978188945") }
+        val state = searchParks.observeState().collectAsState().value
+        val latitude = remember { mutableStateOf("45.742989978188945") }
 
         LaunchedEffect(true) {
             searchParks.dispatch(

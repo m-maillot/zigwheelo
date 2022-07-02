@@ -1,6 +1,11 @@
 package fr.racomach.api
 
-fun ZigWheeloApi.Companion.create(baseUrl: String) = ZigWheeloApi(
-    AndroidHttpClient(),
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
+
+fun ZigWheeloApi.Companion.create(baseUrl: String, withLog: Boolean) = ZigWheeloApi(
+    AndroidHttpClient(withLog),
     baseUrl,
-)
+).also {
+    if (withLog) Napier.base(DebugAntilog())
+}
