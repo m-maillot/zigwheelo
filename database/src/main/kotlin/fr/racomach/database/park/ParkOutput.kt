@@ -1,7 +1,17 @@
 package fr.racomach.database.park
 
+import java.util.*
+
+@JvmInline
+value class ParkId(val value: UUID) {
+    override fun toString() = value.toString()
+}
+
+fun UUID.toParkId() = ParkId(this)
+fun String.toParkId() = ParkId(UUID.fromString(this))
+
 data class ParkOutput(
-    val id: String,
+    val id: ParkId,
     val externalId: String,
     val address: String,
     val city: String,

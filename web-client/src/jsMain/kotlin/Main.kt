@@ -14,7 +14,7 @@ import org.jetbrains.compose.web.renderComposable
 @InternalCoroutinesApi
 fun main() {
 
-    val searchParks = SearchParks(ZigWheeloApi.create("http://localhost:8080", true))
+    val searchParks = SearchParks(ZigWheeloApi.create("http://localhost:9580", true))
 
     renderComposable(rootElementId = "root") {
         Style(TextStyles)

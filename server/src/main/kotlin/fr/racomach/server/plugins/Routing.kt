@@ -1,6 +1,8 @@
 package fr.racomach.server.plugins
 
-import fr.racomach.database.connectDabatase
+import com.zaxxer.hikari.HikariConfig
+import fr.racomach.database.DatabaseFactory
+import fr.racomach.database.ajmPostgresConfig
 import fr.racomach.database.park.ParkDatabase
 import fr.racomach.server.feature.parkAroundPosition.FindParkAroundPosition
 import fr.racomach.server.feature.parkAroundPosition.findParkAroundPosition
@@ -10,9 +12,12 @@ import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
 
-    val database = connectDabatase(
-        System.getenv("MONGODB_URI"),
-        System.getenv("MONGODB_DATABASE"),
+    val database = DatabaseFactory(
+        HikariConfig().ajmPostgresConfig(
+            System.getenv("JDBC_DATABASE_URL"),
+            System.getenv("JDBC_DATABASE_USER"),
+            System.getenv("JDBC_DATABASE_PASSWORD"),
+        )
     )
 
     val repository = ParkDatabase(database)

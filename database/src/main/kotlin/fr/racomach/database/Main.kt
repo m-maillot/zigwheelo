@@ -1,15 +1,30 @@
 package fr.racomach.database
 
-import com.mongodb.ConnectionString
-import com.mongodb.MongoClientSettings
-import com.mongodb.client.MongoDatabase
-import org.bson.UuidRepresentation
-import org.litote.kmongo.KMongo
+import com.zaxxer.hikari.HikariConfig
+import java.util.*
 
-fun connectDabatase(connectionString: String, databaseName: String): MongoDatabase =
-    KMongo.createClient(
-        MongoClientSettings.builder()
-            .uuidRepresentation(UuidRepresentation.STANDARD)
-            .applyConnectionString(ConnectionString(connectionString))
-            .build()
-    ).getDatabase(databaseName)
+fun HikariConfig.ajmPostgresConfig(
+    jdbcurl: String,
+    userName: String,
+    passwordInput: String,
+) =
+    this.apply {
+        driverClassName = "org.postgresql.Driver"
+        maximumPoolSize = 3
+        transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+        jdbcUrl = jdbcurl
+        username = userName
+        password = passwordInput
+        isAutoCommit = false
+        connectionTimeout = 1000
+    }
+
+fun HikariConfig.ajmH2Config(uniqueId: String = UUID.randomUUID().toString()) =
+    this.apply {
+        driverClassName = "org.h2.Driver"
+        jdbcUrl = "jdbc:h2:mem:test-$uniqueId"
+        maximumPoolSize = 3
+        isAutoCommit = false
+        transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+        validate()
+    }
