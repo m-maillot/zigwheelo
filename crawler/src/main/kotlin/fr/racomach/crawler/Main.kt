@@ -1,8 +1,10 @@
 package fr.racomach.crawler
 
+import com.zaxxer.hikari.HikariConfig
 import fr.racomach.crawler.event.UpdateParks
 import fr.racomach.crawler.provider.grandlyon.GrandLyonApi
-import fr.racomach.database.connectDabatase
+import fr.racomach.database.DatabaseFactory
+import fr.racomach.database.ajmPostgresConfig
 import fr.racomach.database.park.ParkDatabase
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -23,9 +25,12 @@ suspend fun main() {
         }
     })
 
-    val database = connectDabatase(
-        System.getenv("MONGODB_URI"),
-        System.getenv("MONGODB_DATABASE"),
+    val database = DatabaseFactory(
+        HikariConfig().ajmPostgresConfig(
+            System.getenv("JDBC_DATABASE_URL"),
+            System.getenv("JDBC_DATABASE_USER"),
+            System.getenv("JDBC_DATABASE_PASSWORD"),
+        )
     )
 
     val parkRepository = ParkDatabase(database)

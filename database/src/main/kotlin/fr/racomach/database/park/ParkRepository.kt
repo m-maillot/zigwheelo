@@ -1,20 +1,33 @@
 package fr.racomach.database.park
 
 import arrow.core.Either
-import com.mongodb.client.MongoDatabase
-import com.mongodb.client.MongoIterable
-import com.mongodb.client.model.geojson.Point
-import com.mongodb.client.model.geojson.Position
-import org.litote.kmongo.*
-import org.litote.kmongo.util.KMongoUtil
+import fr.racomach.database.CrudRepository
+import fr.racomach.database.DatabaseFactory
+import fr.racomach.database.park.Parks.address
+import fr.racomach.database.park.Parks.city
+import fr.racomach.database.park.Parks.disabled
+import fr.racomach.database.park.Parks.externalId
+import fr.racomach.database.park.Parks.latitude
+import fr.racomach.database.park.Parks.longitude
+import fr.racomach.database.park.Parks.place
+import fr.racomach.database.park.Parks.sheltered
+import fr.racomach.database.park.Parks.spot
+import fr.racomach.database.utils.execAndMap
+import fr.racomach.database.utils.upsert
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.statements.InsertStatement
+import org.jetbrains.exposed.sql.statements.UpdateStatement
+import java.time.Instant
+import java.util.*
+import kotlin.math.max
 
 interface ParkRepository {
-    fun upsertParks(parks: List<ParkInput>): Either<Throwable, UpsertResult>
+    suspend fun upsertParks(parks: List<ParkInput>): Either<Throwable, UpsertResult>
 
-    fun nearestParks(
+    suspend fun nearestParks(
         position: Position,
         distance: Int
-    ): Either<Throwable, MongoIterable<ParkOutput>>
+    ): Either<Throwable, List<ParkOutput>>
 
     data class Position(
         val latitude: Double,
@@ -29,72 +42,106 @@ interface ParkRepository {
     )
 }
 
-class ParkDatabase(db: MongoDatabase) : ParkRepository {
+class ParkDatabase(
+    override val database: DatabaseFactory
+) : ParkRepository,
+    CrudRepository<ParkInput, ParkInput, ParkOutput>(database) {
 
-    private val collection = db.getCollection<ParkEntity>("park_entity")
+    override val table = Parks
 
-    override fun upsertParks(parks: List<ParkInput>) = Either.catch {
-        (listOf(
-            updateMany<ParkEntity>(
-                EMPTY_BSON,
-                setValue(ParkEntity::valid, false)
-            )
-        ) + createUpsertBulk(parks))
-            .let { collection.bulkWrite(it) }
-            .let {
-                ParkRepository.UpsertResult(
-                    it.insertedCount.toLong(),
-                    it.modifiedCount.toLong(),
-                    count(false),
-                    count(true)
-                )
-            }
-            .also { collection.createIndex(geo2dsphere(ParkEntity::location)) }
+    override fun toDomain(row: ResultRow): ParkOutput {
+        return ParkOutput(
+            id = row[Parks.id].value.toParkId(),
+            externalId = row[externalId],
+            address = row[address],
+            city = row[city],
+            place = row[place],
+            sheltered = row[sheltered],
+            spot = row[spot],
+            location = ParkOutput.Location(
+                latitude = row[latitude],
+                longitude = row[longitude],
+            ),
+        )
     }
 
-    override fun nearestParks(position: ParkRepository.Position, distance: Int) = Either.catch {
-        collection.find(
-            ParkEntity::location.near(
-                geometry = Point(Position(position.longitude, position.latitude)),
-                maxDistance = distance.toDouble()
-            )
-        ).map { it.toOutput() }
+    override fun toRow(statement: InsertStatement<Number>, insert: ParkInput) {
+        statement[externalId] = insert.externalId
+        statement[address] = insert.address
+        statement[city] = insert.city
+        statement[place] = insert.place
+        statement[sheltered] = insert.sheltered
+        statement[spot] = insert.spot
+        statement[latitude] = insert.latitude
+        statement[longitude] = insert.longitude
     }
 
-    private fun count(valid: Boolean) = collection.countDocuments(ParkEntity::valid eq valid)
+    override fun match(id: UUID): SqlExpressionBuilder.() -> Op<Boolean> = {
+        Parks.id eq id
+    }
 
-    private fun createUpsertBulk(parks: List<ParkInput>) =
-        parks.map {
-            updateOne<ParkEntity>(
-                ParkEntity::externalId eq it.externalId,
-                it.toBsonEntity(),
-                upsert()
+    override fun updateRow(statement: UpdateStatement, update: ParkInput) {
+        statement[externalId] = update.externalId
+        statement[address] = update.address
+        statement[city] = update.city
+        statement[place] = update.place
+        statement[sheltered] = update.sheltered
+        statement[spot] = update.spot
+        statement[latitude] = update.latitude
+        statement[longitude] = update.longitude
+    }
+
+    override suspend fun upsertParks(parks: List<ParkInput>) = Either.catch {
+        database.dbQuery {
+            val enabledCountBefore = count()
+            Parks.deleteWhere { disabled eq true }
+            Parks.update { it[disabled] = true }
+            val modified = parks.map { park ->
+                Parks.upsert(externalId) {
+                    it[externalId] = park.externalId
+                    it[address] = park.address
+                    it[city] = park.city
+                    it[place] = park.place
+                    it[sheltered] = park.sheltered
+                    it[spot] = park.spot
+                    it[longitude] = park.longitude
+                    it[latitude] = park.latitude
+                    it[disabled] = false
+                    it[updatedAt] = Instant.now()
+                }.insertedCount
+            }.sum()
+            val enabledCountAfter = count()
+            val disabledCount = count(true)
+            ParkRepository.UpsertResult(
+                max(enabledCountAfter - enabledCountBefore, 0),
+                modified.toLong(),
+                disabledCount,
+                enabledCountAfter
             )
         }
+    }
 
-    private fun ParkInput.toBsonEntity() = KMongoUtil.toBsonModifier(
-        ParkEntity(
-            externalId,
-            address,
-            city,
-            place,
-            sheltered,
-            spot,
-            ParkEntity.Location(listOf(longitude, latitude)),
-            true
-        ),
-        false,
-    )
+    override suspend fun nearestParks(position: ParkRepository.Position, distance: Int) =
+        Either.catch {
+            database.dbQuery {
+                "SELECT * FROM (select *, (point(longitude,latitude) <@> point(${position.longitude},${position.latitude})) / 0.00062137 as distance FROM parks) parks WHERE distance < $distance ORDER BY distance".execAndMap { rs ->
+                    ParkOutput(
+                        id = rs.getString(Parks.id.name).toParkId(),
+                        externalId = rs.getString(externalId.name),
+                        address = rs.getString(address.name),
+                        city = rs.getString(city.name),
+                        place = rs.getString(place.name),
+                        sheltered = rs.getBoolean(sheltered.name),
+                        spot = rs.getInt(spot.name),
+                        location = ParkOutput.Location(
+                            latitude = rs.getDouble(latitude.name),
+                            longitude = rs.getDouble(longitude.name),
+                        )
+                    )
+                }
+            }
+        }
 
-    private fun ParkEntity.toOutput() = ParkOutput(
-        id.toString(),
-        externalId,
-        address,
-        city,
-        place,
-        sheltered,
-        spot,
-        ParkOutput.Location(longitude = location.coordinates[0], latitude = location.coordinates[1])
-    )
-
+    private fun count(disabled: Boolean = false) =
+        Parks.select { Parks.disabled eq disabled }.count()
 }

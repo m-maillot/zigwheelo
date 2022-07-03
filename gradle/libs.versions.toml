@@ -16,6 +16,9 @@ play-services-maps = "18.0.2"
 maps-ktx = "3.3.0"
 maps-compose = "1.3.0"
 napier = "2.4.0"
+exposed = "0.38.2"
+postgresql = "42.4.0"
+hikari = "5.0.1"
 
 [libraries]
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
@@ -47,8 +50,12 @@ logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 ktorServerTests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor" }
 kotlinTest = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
-kmongo = { module = "org.litote.kmongo:kmongo-serialization", version.ref = "kmongo" }
-kmongoCoroutine = { module = "org.litote.kmongo:kmongo-coroutine-serialization", version.ref = "kmongo" }
+exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed" }
+exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+exposed-java-time = { module = "org.jetbrains.exposed:exposed-java-time", version.ref = "exposed" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
 
 arrow = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 
@@ -88,10 +95,13 @@ crawlerDependencies = [
     "arrow",
 ]
 databaseDependencies = [
-    "kmongo",
-    "kmongoCoroutine",
-    "kotlinx-serialization-json",
     "arrow",
+    "exposed-core",
+    "exposed-dao",
+    "exposed-jdbc",
+    "exposed-java-time",
+    "postgresql",
+    "hikari",
 ]
 
 apiDependencies = [

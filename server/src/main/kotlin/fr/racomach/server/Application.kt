@@ -8,7 +8,7 @@ import fr.racomach.server.plugins.configureRouting
 import fr.racomach.server.plugins.configureSerialization
 
 fun main() {
-    embeddedServer(CIO, port = 8080, host = "0.0.0.0") {
+    embeddedServer(CIO, port = 9580, host = "0.0.0.0") {
         configureCors()
         configureRouting()
         configureSerialization()
