@@ -11,19 +11,19 @@ buildscript {
 
     dependencies {
         // keeping this here to allow AS to automatically update
-        classpath("com.android.tools.build:gradle:7.2.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:1.6.10")
+        classpath("com.android.tools.build:gradle:7.2.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:1.7.10")
         classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
     }
 }
 plugins {
-    kotlin("multiplatform") version "1.6.10" apply false
-    kotlin("plugin.serialization") version "1.6.10" apply false
-    kotlin("jvm") version "1.6.10" apply false
+    kotlin("multiplatform") version "1.7.10" apply false
+    kotlin("plugin.serialization") version "1.7.10" apply false
+    kotlin("jvm") version "1.7.10" apply false
     id("com.android.application") version "7.1.1" apply false
     id("com.android.library") version "7.1.1" apply false
-    kotlin("android") version "1.6.0" apply false
+    kotlin("android") version "1.7.0" apply false
 }
 
 allprojects {

@@ -7,12 +7,12 @@ plugins {
 android {
 
     namespace = "fr.racomach.zigwheelo"
-    compileSdk = 31
+    compileSdk = 32
 
     defaultConfig {
         applicationId = "fr.racomach.zigwheelo"
         minSdk = 23
-        targetSdk = 31
+        targetSdk = 32
 
         versionCode = 1
         versionName = "1.0"
@@ -24,7 +24,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.0-rc03"
+        kotlinCompilerExtensionVersion = "1.3.0"
     }
 
     buildTypes {
@@ -55,7 +55,7 @@ android {
 }
 
 dependencies {
-    val compose_version = "1.1.0-rc01"
+    val compose_version = "1.2.1"
 
     implementation(project(":api"))
     implementation(libs.bundles.androidDependencies)

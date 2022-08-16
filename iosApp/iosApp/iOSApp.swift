@@ -8,7 +8,7 @@ class iOSApp: App {
     let store: ObservableSearchParks
     
     required init() {
-        api = ZigWheeloApi.Companion().create(baseUrl: "http://localhost:8080", withLog: true)
+        api = ZigWheeloApi.Companion().create(baseUrl: "http://192.168.1.35:9580", withLog: true)
         store = ObservableSearchParks(store: SearchParks(zigWheeloApi: api))
         print("API Initialied")
     }

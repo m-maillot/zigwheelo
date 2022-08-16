@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version "1.1.0"
+    id("org.jetbrains.compose") version "1.2.0-alpha01-dev755"
 }
 
 kotlin {
@@ -18,6 +18,13 @@ kotlin {
                 implementation(compose.runtime)
             }
         }
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile> {
+    kotlinOptions {
+        // Jetpack Compose doesn't support Kotlin 1.7.10 yet, but the latest version seems to compile just fine under Kotlin 1.7.10
+        freeCompilerArgs += listOf("-P", "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true")
     }
 }
 
