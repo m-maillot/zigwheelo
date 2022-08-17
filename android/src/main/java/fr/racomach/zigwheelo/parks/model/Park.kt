@@ -3,6 +3,7 @@ package fr.racomach.zigwheelo.parks.model
 data class ParkModel(
     val id: String,
     val address: String,
+    val spots: Int,
     val location: PositionModel,
 )
 

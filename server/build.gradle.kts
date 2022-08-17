@@ -15,6 +15,7 @@ application {
 
 dependencies {
     implementation(project(":database"))
+    implementation(project(":api"))
     implementation(libs.bundles.serverDependencies)
 
     testImplementation(libs.bundles.testDependencies)

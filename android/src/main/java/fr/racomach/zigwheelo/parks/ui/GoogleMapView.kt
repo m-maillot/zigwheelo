@@ -47,6 +47,7 @@ fun GoogleMapView(
                 ),
                 position = LatLng(park.location.latitude, park.location.longitude),
                 title = park.address,
+                snippet = "${park.spots} place(s)",
                 onClick = { onClick(park).let { false } }
             )
         }

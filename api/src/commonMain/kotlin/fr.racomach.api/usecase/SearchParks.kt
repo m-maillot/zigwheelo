@@ -74,6 +74,7 @@ class SearchParks(
     private fun FindParkResult.toPark() = Park(
         id = id,
         address = address,
+        spots = spots,
         location = fr.racomach.api.model.Position(
             latitude = location.latitude,
             longitude = location.longitude

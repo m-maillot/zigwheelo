@@ -53,6 +53,7 @@ fun MainScreen(state: SearchParkState) {
 private fun Park.toModel() = ParkModel(
     id = id,
     address = address,
+    spots = spots,
     location = PositionModel(latitude = location.latitude, longitude = location.longitude)
 )
 
