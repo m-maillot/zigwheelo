@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
             requestMultiplePermissions.launch(missingPermissions.toTypedArray())
         }
 
-        searchParks = SearchParks(ZigWheeloApi.create("http://10.0.2.2:8080", true))
+        searchParks = SearchParks(ZigWheeloApi.create("http://192.168.1.35:9580", true))
         val action = SearchParkAction.Search(45.742989978188945, 4.851021720981201, 500)
         searchParks.dispatch(action)
 

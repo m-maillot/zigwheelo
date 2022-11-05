@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version "1.2.0-alpha01-dev755"
+    id("org.jetbrains.compose") version "1.2.1-rc03"
 }
 
 kotlin {
@@ -13,7 +13,6 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 implementation(project(":api"))
-                implementation(compose.web.widgets)
                 implementation(compose.web.core)
                 implementation(compose.runtime)
             }

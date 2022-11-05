@@ -7,17 +7,15 @@ import io.ktor.server.application.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
 
-fun Application.findParkAroundPosition(
+fun Route.findParkAroundPosition(
     findParkAroundPosition: FindParkAroundPosition,
 ) {
-    routing {
-        get("/api/parks/search") {
+        get("/parks/search") {
             extractParam(call)
                 .flatMap { findParkAroundPosition.run(it) }
                 .also { print("Result: $it") }
                 .toRespond(call)
         }
-    }
 }
 
 private fun extractParam(call: ApplicationCall): Either<Throwable, FindParkAroundPosition.Param> =

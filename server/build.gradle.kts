@@ -16,11 +16,20 @@ application {
 dependencies {
     implementation(project(":database"))
     implementation(project(":api"))
+
     implementation(libs.bundles.serverDependencies)
 
     testImplementation(libs.bundles.testDependencies)
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+sourceSets.main {
+    java.srcDirs("build/generated/ksp/main/kotlin")
 }

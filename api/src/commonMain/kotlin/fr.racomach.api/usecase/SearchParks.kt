@@ -1,6 +1,7 @@
 package fr.racomach.api.usecase
 
 import fr.racomach.api.ZigWheeloApi
+import fr.racomach.api.generic.Position
 import fr.racomach.api.model.Park
 import fr.racomach.api.response.FindParkResult
 import io.github.aakira.napier.Napier
@@ -75,7 +76,7 @@ class SearchParks(
         id = id,
         address = address,
         spots = spots,
-        location = fr.racomach.api.model.Position(
+        location = Position(
             latitude = location.latitude,
             longitude = location.longitude
         )

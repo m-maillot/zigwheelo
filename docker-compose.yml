@@ -3,6 +3,8 @@ version: "3.9"
 volumes:
   db_data:
     driver: local
+  keycloak_data:
+    driver: local
 
 services:
   db:
@@ -15,3 +17,24 @@ services:
       POSTGRES_PASSWORD: 12345
     ports:
       - "9532:5432"
+  keycloak-db:
+    image: postgres:14
+    volumes:
+      - keycloak_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+  keycloak:
+    image: quay.io/keycloak/keycloak:20.0.0
+    command:
+      - start-dev
+      - --features admin-fine-grained-authz
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin123
+      KEYCLOAK_LOGLEVEL: INFO
+      ROOT_LOGLEVEL: INFO
+    ports:
+      - "9581:8080"
+      - "9887:8787"

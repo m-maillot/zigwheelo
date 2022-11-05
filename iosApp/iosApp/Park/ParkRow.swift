@@ -19,6 +19,6 @@ struct ParkRow: View {
 
 struct ParkRow_Previews: PreviewProvider {
     static var previews: some View {
-        ParkRow(park: Park(id: "1", address: "6 rue lamothe", location: Position(latitude: 4.3, longitude: 42.2)))
+        ParkRow(park: Park(id: "1", address: "6 rue lamothe", spots: 10, location: Position(latitude: 4.3, longitude: 42.2)))
     }
 }

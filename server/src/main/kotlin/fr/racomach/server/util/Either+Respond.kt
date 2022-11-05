@@ -1,6 +1,7 @@
 package fr.racomach.server.util
 
 import arrow.core.Either
+import fr.racomach.api.error.ErrorResponse
 import fr.racomach.server.error.HttpError
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -18,5 +19,9 @@ suspend fun ApplicationCall.handleError(error: Throwable) = when (error) {
         HttpStatusCode.BadRequest,
         "Missing ${error.parameterName} parameter"
     )
-    else -> respond(HttpStatusCode.InternalServerError, error.localizedMessage)
+
+    else -> respond(
+        HttpStatusCode.InternalServerError,
+        ErrorResponse(error::class.java.simpleName, error.localizedMessage)
+    )
 }

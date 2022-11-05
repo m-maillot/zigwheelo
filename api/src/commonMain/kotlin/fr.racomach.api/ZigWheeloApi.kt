@@ -1,13 +1,19 @@
 package fr.racomach.api
 
+import arrow.core.Either
+import fr.racomach.api.cyclist.CyclistApi
+import fr.racomach.api.error.ErrorResponse
 import fr.racomach.api.response.FindParksResult
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
 
 class ZigWheeloApi internal constructor(
     private val client: HttpClient,
     private val baseUrl: String,
+    val cyclist: CyclistApi = CyclistApi(client, baseUrl)
 ) {
     suspend fun searchParks(latitude: Double, longitude: Double, distance: Int) =
         client.get("$baseUrl/api/parks/search") {
@@ -18,3 +24,10 @@ class ZigWheeloApi internal constructor(
 
     companion object
 }
+
+suspend inline fun <reified T> HttpResponse.handle(): Either<ErrorResponse, T> =
+    if (status == HttpStatusCode.OK) {
+        Either.Right(body())
+    } else {
+        Either.Left(body())
+    }
