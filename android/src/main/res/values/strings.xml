@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ZigWheelo</string>
+    <string name="title_activity_onboarding">OnboardingActivity</string>
 </resources>
