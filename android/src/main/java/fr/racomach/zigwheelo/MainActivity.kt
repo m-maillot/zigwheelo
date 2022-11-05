@@ -1,13 +1,11 @@
 package fr.racomach.zigwheelo
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.collectAsState
-import fr.racomach.api.ZigWheeloApi
-import fr.racomach.api.create
+import fr.racomach.api.createApi
 import fr.racomach.api.usecase.SearchParkAction
 import fr.racomach.api.usecase.SearchParks
 import fr.racomach.zigwheelo.common.missingPermissions
@@ -32,7 +30,7 @@ class MainActivity : ComponentActivity() {
             requestMultiplePermissions.launch(missingPermissions.toTypedArray())
         }
 
-        searchParks = SearchParks(ZigWheeloApi.create("http://192.168.1.35:9580", true))
+        searchParks = SearchParks(createApi("http://192.168.1.35:9580", true))
         val action = SearchParkAction.Search(45.742989978188945, 4.851021720981201, 500)
         searchParks.dispatch(action)
 

@@ -17,15 +17,16 @@ import org.koin.ktor.ext.inject
 
 fun Application.configureRouting() {
 
+    /*
     val database = DatabaseFactory(
         HikariConfig().ajmPostgresConfig(
             System.getenv("JDBC_DATABASE_URL"),
             System.getenv("JDBC_DATABASE_USER"),
             System.getenv("JDBC_DATABASE_PASSWORD"),
         )
-    )
+    )*/
 
-    val repository = ParkDatabase(database)
+    // val repository = ParkDatabase(database)
     val commandHandler by inject<CommandHandler>()
     val userRepository by inject<UserRepository>()
 
@@ -37,7 +38,7 @@ fun Application.configureRouting() {
 
     routing {
         route("/api/v1") {
-            findParkAroundPosition(FindParkAroundPosition(repository))
+            // findParkAroundPosition(FindParkAroundPosition(repository))
             locationCondition(commandHandler)
             cyclist(commandHandler, userRepository)
         }

@@ -7,7 +7,7 @@ plugins {
 android {
 
     namespace = "fr.racomach.zigwheelo"
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "fr.racomach.zigwheelo"
@@ -24,7 +24,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.0"
+        kotlinCompilerExtensionVersion = "1.3.2"
     }
 
     buildTypes {
@@ -32,8 +32,8 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
@@ -55,15 +55,14 @@ android {
 }
 
 dependencies {
-    val compose_version = "1.2.1"
 
+    val composeBom = platform(libs.androidx.compose.bom)
+    implementation(composeBom)
     implementation(project(":api"))
     implementation(libs.bundles.androidDependencies)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
-    debugImplementation("androidx.compose.ui:ui-tooling:$compose_version")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
+    testImplementation(libs.bundles.androidTestDependencies)
+    androidTestImplementation(composeBom)
+    androidTestImplementation(libs.bundles.androidAndroidTestDependencies)
+    debugImplementation(libs.bundles.androidDebugDependencies)
 }
