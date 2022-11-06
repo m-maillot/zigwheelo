@@ -2,6 +2,7 @@ package fr.racomach.zigwheelo.onboarding.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +26,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier
             .fillMaxSize()
-            .background(seaGreen)
+            .background(MaterialTheme.colorScheme.secondary)
             .padding(16.dp),
         shadowElevation = 8.dp,
     ) {
@@ -59,6 +60,19 @@ fun Loader(modifier: Modifier = Modifier) {
 @Composable
 private fun MainScreenPreview() {
     ZigwheeloTheme3(darkTheme = false) {
+        MainScreen()
+    }
+
+}
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.NEXUS_5X,
+)
+@Composable
+private fun MainScreenDarkPreview() {
+    ZigwheeloTheme3(darkTheme = true) {
         MainScreen()
     }
 
