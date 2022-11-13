@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -58,6 +60,18 @@ android {
         resources.excludes.add("META-INF/AL2.0")
         resources.excludes.add("META-INF/LGPL2.1")
     }
+
+    hilt {
+        enableExperimentalClasspathAggregation = true
+    }
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 dependencies {
@@ -66,6 +80,8 @@ dependencies {
     implementation(composeBom)
     implementation(project(":api"))
     implementation(libs.bundles.androidDependencies)
+
+    kapt(libs.bundles.androidKaptDependencies)
 
     testImplementation(libs.bundles.androidTestDependencies)
     androidTestImplementation(composeBom)
