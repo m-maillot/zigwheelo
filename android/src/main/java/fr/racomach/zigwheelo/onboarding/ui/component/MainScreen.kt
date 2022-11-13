@@ -35,9 +35,13 @@ fun MainScreen(
             )
             is OnboardingViewModel.State.Trip -> TripStep(
                 modifier = Modifier.padding(16.dp),
-                onSetupTrip = { /*TODO*/ },
-                onSkip = {}
+                state = state,
             )
+            is OnboardingViewModel.State.Notification -> SettingsStep(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                state.onDone()
+            }
         }
     }
 }

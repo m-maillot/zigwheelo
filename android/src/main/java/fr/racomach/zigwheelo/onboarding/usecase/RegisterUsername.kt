@@ -2,6 +2,8 @@ package fr.racomach.zigwheelo.onboarding.usecase
 
 import arrow.core.Either
 import arrow.core.flatMap
+import arrow.core.left
+import arrow.core.right
 import fr.racomach.api.error.ErrorResponse
 import fr.racomach.zigwheelo.repository.CyclistRepository
 import kotlinx.coroutines.CompletableDeferred
@@ -37,17 +39,12 @@ class RegisterUsername(
 
     private fun validate(username: String?): Either<ErrorResponse, String> {
         if (username == null) {
-            return Either.Left(ErrorResponse("EMPTY", "Veuillez indiquer un pseudo"))
+            return ErrorResponse("EMPTY", "Veuillez indiquer un pseudo").left()
         }
         if (username.length <= 3) {
-            return Either.Left(
-                ErrorResponse(
-                    "TOO_SHORT",
-                    "Votre pseudo doit contenir au moins 3 charactères"
-                )
-            )
+            return ErrorResponse("TOO_SHORT", "Votre pseudo doit contenir au moins 3 charactères").left()
         }
-        return Either.Right(username)
+        return username.right()
     }
 
     sealed class State {

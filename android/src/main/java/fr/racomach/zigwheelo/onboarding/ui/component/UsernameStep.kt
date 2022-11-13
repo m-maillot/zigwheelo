@@ -57,7 +57,7 @@ fun UsernameStep(
 
 
 @Composable
-fun SmileyHappy(modifier: Modifier = Modifier) {
+private fun SmileyHappy(modifier: Modifier = Modifier) {
     val composition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(if (isSystemInDarkTheme()) R.raw.happy_dark else R.raw.happy_light)
     )
@@ -69,7 +69,7 @@ fun SmileyHappy(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun SmileySad(modifier: Modifier = Modifier) {
+private fun SmileySad(modifier: Modifier = Modifier) {
     val composition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(if (isSystemInDarkTheme()) R.raw.sad_dark else R.raw.sad_light)
     )
@@ -81,7 +81,7 @@ fun SmileySad(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun SmileyWink(modifier: Modifier = Modifier) {
+private fun SmileyWink(modifier: Modifier = Modifier) {
     val composition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(if (isSystemInDarkTheme()) R.raw.wink_dark else R.raw.wink_light)
     )

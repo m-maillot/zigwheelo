@@ -40,7 +40,7 @@ fun PagerDot(
 }
 
 @Composable
-fun Dot(modifier: Modifier = Modifier, radius: Float, color: Color) {
+private fun Dot(modifier: Modifier = Modifier, radius: Float, color: Color) {
     Canvas(
         modifier = modifier
             // Hack of the day : https://stackoverflow.com/questions/64939726/jetpack-compose-canvas-blendmode-src-in-makes-even-background-transparent
