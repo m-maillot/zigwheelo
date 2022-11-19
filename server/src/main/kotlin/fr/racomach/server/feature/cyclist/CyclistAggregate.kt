@@ -2,6 +2,7 @@ package fr.racomach.server.feature.cyclist
 
 import arrow.core.Either
 import fr.racomach.event.sourcing.Aggregate
+import fr.racomach.event.sourcing.Error
 import fr.racomach.event.sourcing.command.CyclistCommand
 import fr.racomach.event.sourcing.event.CyclistEvent
 import fr.racomach.server.error.DomainError
@@ -12,7 +13,7 @@ class CyclistAggregate : Aggregate<CyclistEvent, CyclistCommand> {
     override fun apply(
         history: List<CyclistEvent>,
         command: CyclistCommand
-    ): Either<Exception, List<CyclistEvent>> =
+    ): Either<Error, List<CyclistEvent>> =
         DecisionProjection(history).let { projection ->
             when (command) {
                 is CyclistCommand.AddTrip -> apply(command, projection)
@@ -23,7 +24,7 @@ class CyclistAggregate : Aggregate<CyclistEvent, CyclistCommand> {
     private fun apply(
         history: List<CyclistEvent>,
         command: CyclistCommand.Create
-    ): Either<Exception, List<CyclistEvent>> =
+    ): Either<Error, List<CyclistEvent>> =
         if (history.isNotEmpty())
             Either.Left(DomainError.Cyclist.AlreadyCreated)
         else
@@ -33,7 +34,7 @@ class CyclistAggregate : Aggregate<CyclistEvent, CyclistCommand> {
     private fun apply(
         command: CyclistCommand.AddTrip,
         projection: DecisionProjection
-    ): Either<Exception, List<CyclistEvent>> {
+    ): Either<Error, List<CyclistEvent>> {
         val overlapTrip = projection.trips.find { it.overlap(command.trip) }
         if (overlapTrip != null) {
             return Either.Left(DomainError.Cyclist.DuplicateTrip(overlapTrip.schedule))

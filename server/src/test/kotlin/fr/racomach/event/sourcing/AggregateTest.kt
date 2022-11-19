@@ -6,7 +6,7 @@ import fr.racomach.event.sourcing.event.TestEvent
 
 class AggregateTest : Aggregate<TestEvent, TestCommand> {
 
-    override fun apply(history: List<TestEvent>, command: TestCommand): Either<Exception, List<TestEvent>> =
+    override fun apply(history: List<TestEvent>, command: TestCommand): Either<Error, List<TestEvent>> =
         when (command) {
             is TestCommand.ChangeAddress -> Either.Right(listOf(TestEvent.AddressChanged(command.address)))
             is TestCommand.Create -> Either.Right(listOf(TestEvent.Created(command.name)))

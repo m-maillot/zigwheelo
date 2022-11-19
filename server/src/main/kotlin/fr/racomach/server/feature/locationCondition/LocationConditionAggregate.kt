@@ -2,6 +2,7 @@ package fr.racomach.server.feature.locationCondition
 
 import arrow.core.Either
 import fr.racomach.event.sourcing.Aggregate
+import fr.racomach.event.sourcing.Error
 import fr.racomach.event.sourcing.command.LocationConditionCommand
 import fr.racomach.event.sourcing.command.LocationConditionCommand.NewLocation
 import fr.racomach.event.sourcing.command.LocationConditionCommand.UpdateCondition
@@ -14,7 +15,7 @@ class LocationConditionAggregate : Aggregate<LocationConditionEvent, LocationCon
     override fun apply(
         history: List<LocationConditionEvent>,
         command: LocationConditionCommand
-    ): Either<Exception, List<LocationConditionEvent>> =
+    ): Either<Error, List<LocationConditionEvent>> =
         when (command) {
             is NewLocation -> apply(command)
             is UpdateCondition -> apply(command)
