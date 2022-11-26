@@ -21,14 +21,13 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import fr.racomach.zigwheelo.R
-import fr.racomach.zigwheelo.onboarding.ui.OnboardingViewModel
 import fr.racomach.zigwheelo.ui.theme.ZigWheeloTypography
 import fr.racomach.zigwheelo.ui.theme.ZigwheeloTheme3
 
 @Composable
 fun TripStep(
     modifier: Modifier = Modifier,
-    state: OnboardingViewModel.State.Trip,
+    onSkip: () -> Unit,
 ) {
     Column(
         modifier = modifier,
@@ -45,10 +44,10 @@ fun TripStep(
             text = "Vous pouvez définir un trajet régulier à vélo. Ainsi vous recevrez chaque jour une notification pour vous aider à bien vous équipez pour la journée !"
         )
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = state.onCreateTrip) {
+            Button(onClick = { /* TODO dispatch */ }) {
                 Text(text = "Définir un trajet")
             }
-            OutlinedButton(onClick = state.onSkip) {
+            OutlinedButton(onClick = onSkip) {
                 Text(text = "Passer")
             }
         }
@@ -81,6 +80,6 @@ private fun TripPicture(modifier: Modifier = Modifier) {
 @Composable
 private fun TripStepPreview() {
     ZigwheeloTheme3 {
-        TripStep(state = OnboardingViewModel.State.Trip(onCreateTrip = {}, onSkip = {}))
+        TripStep(onSkip = {})
     }
 }

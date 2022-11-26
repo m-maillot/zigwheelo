@@ -1,9 +1,9 @@
 package fr.racomach.server.feature.cyclist
 
 import arrow.core.Either
-import fr.racomach.api.cyclist.dto.AddTripRequest
-import fr.racomach.api.cyclist.dto.CreateRequest
-import fr.racomach.api.cyclist.dto.CreateResponse
+import fr.racomach.api.onboard.api.dto.AddTripRequest
+import fr.racomach.api.onboard.api.dto.CreateRequest
+import fr.racomach.api.onboard.api.dto.CreateResponse
 import fr.racomach.event.sourcing.AggregateId
 import fr.racomach.event.sourcing.CommandHandler
 import fr.racomach.event.sourcing.command.CyclistCommand

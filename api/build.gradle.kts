@@ -4,6 +4,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("com.android.library")
+    id("dev.icerock.moko.kswift")
 }
 
 android {
@@ -18,6 +19,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     namespace = "fr.racomach.api"
+}
+
+kswift {
+    install(dev.icerock.moko.kswift.plugin.feature.PlatformExtensionFunctionsFeature)
+    install(dev.icerock.moko.kswift.plugin.feature.SealedToSwiftEnumFeature)
+
+    excludeLibrary("kotlinx-coroutines-core")
 }
 
 kotlin {
@@ -85,6 +93,10 @@ kotlin {
             }
         }
     }
+}
+
+dependencies {
+    commonMainApi("dev.icerock.moko:kswift-runtime:0.6.1")
 }
 
 tasks.withType<KotlinCompile> {

@@ -1,9 +1,9 @@
 package fr.racomach.api
 
 import arrow.core.Either
-import fr.racomach.api.cyclist.CyclistApi
-import fr.racomach.api.cyclist.CyclistApiImpl
 import fr.racomach.api.error.ErrorResponse
+import fr.racomach.api.onboard.api.OnboardApi
+import fr.racomach.api.onboard.api.OnboardApiImpl
 import fr.racomach.api.place.PlaceApi
 import fr.racomach.api.place.PlaceApiImpl
 import fr.racomach.api.response.FindParksResult
@@ -16,7 +16,7 @@ import io.ktor.http.*
 class ZigWheeloApi internal constructor(
     private val client: HttpClient,
     private val baseUrl: String,
-    val cyclist: CyclistApi = CyclistApiImpl(client, baseUrl),
+    val onboard: OnboardApi = OnboardApiImpl(client, baseUrl),
     val place: PlaceApi = PlaceApiImpl(client, baseUrl),
 ) {
     suspend fun searchParks(latitude: Double, longitude: Double, distance: Int) =

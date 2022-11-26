@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,8 +11,40 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
+		831C828D29315A71008209A0 /* OnboardingStepTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831C828C29315A71008209A0 /* OnboardingStepTwo.swift */; };
+		831C828F29315ADC008209A0 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831C828E29315ADC008209A0 /* OnboardingScreen.swift */; };
+		831C829129316C1E008209A0 /* OnboardingStepThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831C829029316C1E008209A0 /* OnboardingStepThree.swift */; };
+		831C829429316E4A008209A0 /* PermissionsSwiftUILocation in Frameworks */ = {isa = PBXBuildFile; productRef = 831C829329316E4A008209A0 /* PermissionsSwiftUILocation */; };
+		831C829629316E4A008209A0 /* PermissionsSwiftUINotification in Frameworks */ = {isa = PBXBuildFile; productRef = 831C829529316E4A008209A0 /* PermissionsSwiftUINotification */; };
+		831C829B2932190E008209A0 /* OnboardingSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831C829A2932190E008209A0 /* OnboardingSettingsViewModel.swift */; };
 		83541ED927F87C4800F650D5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83541ED827F87C4800F650D5 /* MainView.swift */; };
 		83541EDB27F87DA400F650D5 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83541EDA27F87DA400F650D5 /* Models.swift */; };
+		8373AB2B292C2E3A00B3A0F7 /* PageDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8373AB2A292C2E3A00B3A0F7 /* PageDot.swift */; };
+		8373AB38292C303F00B3A0F7 /* cycling_light.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB2C292C303F00B3A0F7 /* cycling_light.json */; };
+		8373AB39292C303F00B3A0F7 /* notification_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB2D292C303F00B3A0F7 /* notification_dark.json */; };
+		8373AB3B292C303F00B3A0F7 /* trip_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB2F292C303F00B3A0F7 /* trip_dark.json */; };
+		8373AB3C292C303F00B3A0F7 /* notification_light.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB30292C303F00B3A0F7 /* notification_light.json */; };
+		8373AB3E292C303F00B3A0F7 /* cycling_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB32292C303F00B3A0F7 /* cycling_dark.json */; };
+		8373AB3F292C303F00B3A0F7 /* sad_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB33292C303F00B3A0F7 /* sad_dark.json */; };
+		8373AB40292C303F00B3A0F7 /* sad_light.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB34292C303F00B3A0F7 /* sad_light.json */; };
+		8373AB41292C303F00B3A0F7 /* wink_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB35292C303F00B3A0F7 /* wink_dark.json */; };
+		8373AB42292C303F00B3A0F7 /* wink_light.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB36292C303F00B3A0F7 /* wink_light.json */; };
+		8373AB43292C303F00B3A0F7 /* trip_light.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB37292C303F00B3A0F7 /* trip_light.json */; };
+		8373AB46292C312600B3A0F7 /* happy_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB44292C312600B3A0F7 /* happy_dark.json */; };
+		8373AB47292C312600B3A0F7 /* happy_light.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB45292C312600B3A0F7 /* happy_light.json */; };
+		83AF41542928EED9007EFA3D /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF41532928EED9007EFA3D /* MainScreen.swift */; };
+		83AF41582928FE7F007EFA3D /* OboardingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF41572928FE7F007EFA3D /* OboardingContentView.swift */; };
+		83AF415A2928FFCA007EFA3D /* OnboardingStepOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF41592928FFCA007EFA3D /* OnboardingStepOne.swift */; };
+		83AF415C29290206007EFA3D /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF415B29290206007EFA3D /* Observable.swift */; };
+		83AF416029292F57007EFA3D /* OnboardUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF415F29292F57007EFA3D /* OnboardUserViewModel.swift */; };
+		83AF41A1292A6AAB007EFA3D /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF41A0292A6AAB007EFA3D /* Theme.swift */; };
+		83AF41A4292A8A18007EFA3D /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF41A3292A8A18007EFA3D /* Buttons.swift */; };
+		83AF41AA292A917B007EFA3D /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF41A9292A917B007EFA3D /* Typography.swift */; };
+		83AF41AC292A91BE007EFA3D /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF41AB292A91BE007EFA3D /* Colors.swift */; };
+		83AF41B0292A9B62007EFA3D /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF41AF292A9B62007EFA3D /* TextFields.swift */; };
+		83AF41B3292ADE92007EFA3D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 83AF41B2292ADE92007EFA3D /* Lottie */; };
+		83AF41B6292ADFA1007EFA3D /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF41B5292ADFA1007EFA3D /* LottieView.swift */; };
+		83AF41BE292AE163007EFA3D /* LottieAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF41BD292AE163007EFA3D /* LottieAnimation.swift */; };
 		83FE89ED27ED0FFB00A2ADB4 /* ParkList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FE89EC27ED0FFB00A2ADB4 /* ParkList.swift */; };
 		83FE89EF27ED10B200A2ADB4 /* ParkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FE89EE27ED10B200A2ADB4 /* ParkRow.swift */; };
 /* End PBXBuildFile section */
@@ -37,8 +69,37 @@
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		831C828C29315A71008209A0 /* OnboardingStepTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStepTwo.swift; sourceTree = "<group>"; };
+		831C828E29315ADC008209A0 /* OnboardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
+		831C829029316C1E008209A0 /* OnboardingStepThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStepThree.swift; sourceTree = "<group>"; };
+		831C829A2932190E008209A0 /* OnboardingSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSettingsViewModel.swift; sourceTree = "<group>"; };
 		83541ED827F87C4800F650D5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		83541EDA27F87DA400F650D5 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		8373AB2A292C2E3A00B3A0F7 /* PageDot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageDot.swift; sourceTree = "<group>"; };
+		8373AB2C292C303F00B3A0F7 /* cycling_light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = cycling_light.json; path = ../../../android/src/main/res/raw/cycling_light.json; sourceTree = "<group>"; };
+		8373AB2D292C303F00B3A0F7 /* notification_dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = notification_dark.json; path = ../../../android/src/main/res/raw/notification_dark.json; sourceTree = "<group>"; };
+		8373AB2F292C303F00B3A0F7 /* trip_dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = trip_dark.json; path = ../../../android/src/main/res/raw/trip_dark.json; sourceTree = "<group>"; };
+		8373AB30292C303F00B3A0F7 /* notification_light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = notification_light.json; path = ../../../android/src/main/res/raw/notification_light.json; sourceTree = "<group>"; };
+		8373AB32292C303F00B3A0F7 /* cycling_dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = cycling_dark.json; path = ../../../android/src/main/res/raw/cycling_dark.json; sourceTree = "<group>"; };
+		8373AB33292C303F00B3A0F7 /* sad_dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sad_dark.json; path = ../../../android/src/main/res/raw/sad_dark.json; sourceTree = "<group>"; };
+		8373AB34292C303F00B3A0F7 /* sad_light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sad_light.json; path = ../../../android/src/main/res/raw/sad_light.json; sourceTree = "<group>"; };
+		8373AB35292C303F00B3A0F7 /* wink_dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = wink_dark.json; path = ../../../android/src/main/res/raw/wink_dark.json; sourceTree = "<group>"; };
+		8373AB36292C303F00B3A0F7 /* wink_light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = wink_light.json; path = ../../../android/src/main/res/raw/wink_light.json; sourceTree = "<group>"; };
+		8373AB37292C303F00B3A0F7 /* trip_light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = trip_light.json; path = ../../../android/src/main/res/raw/trip_light.json; sourceTree = "<group>"; };
+		8373AB44292C312600B3A0F7 /* happy_dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = happy_dark.json; path = ../../../android/src/main/res/raw/happy_dark.json; sourceTree = "<group>"; };
+		8373AB45292C312600B3A0F7 /* happy_light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = happy_light.json; path = ../../../android/src/main/res/raw/happy_light.json; sourceTree = "<group>"; };
+		83AF41532928EED9007EFA3D /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
+		83AF41572928FE7F007EFA3D /* OboardingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OboardingContentView.swift; sourceTree = "<group>"; };
+		83AF41592928FFCA007EFA3D /* OnboardingStepOne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStepOne.swift; sourceTree = "<group>"; };
+		83AF415B29290206007EFA3D /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		83AF415F29292F57007EFA3D /* OnboardUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardUserViewModel.swift; sourceTree = "<group>"; };
+		83AF41A0292A6AAB007EFA3D /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		83AF41A3292A8A18007EFA3D /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
+		83AF41A9292A917B007EFA3D /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		83AF41AB292A91BE007EFA3D /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		83AF41AF292A9B62007EFA3D /* TextFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
+		83AF41B5292ADFA1007EFA3D /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		83AF41BD292AE163007EFA3D /* LottieAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimation.swift; sourceTree = "<group>"; };
 		83FE89EC27ED0FFB00A2ADB4 /* ParkList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkList.swift; sourceTree = "<group>"; };
 		83FE89EE27ED10B200A2ADB4 /* ParkRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -48,6 +109,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				831C829429316E4A008209A0 /* PermissionsSwiftUILocation in Frameworks */,
+				83AF41B3292ADE92007EFA3D /* Lottie in Frameworks */,
+				831C829629316E4A008209A0 /* PermissionsSwiftUINotification in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,12 +146,16 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				83AF41B4292ADF92007EFA3D /* Lottie */,
+				83AF41A2292A89FD007EFA3D /* Styles */,
+				83AF41522928EE95007EFA3D /* Onboarding */,
 				83FE89EB27ED0FDC00A2ADB4 /* Park */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
+				83AF41A0292A6AAB007EFA3D /* Theme.swift */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -99,6 +167,62 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		831C8299293218ED008209A0 /* SettingStep */ = {
+			isa = PBXGroup;
+			children = (
+				831C829029316C1E008209A0 /* OnboardingStepThree.swift */,
+				831C829A2932190E008209A0 /* OnboardingSettingsViewModel.swift */,
+			);
+			path = SettingStep;
+			sourceTree = "<group>";
+		};
+		83AF41522928EE95007EFA3D /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				831C8299293218ED008209A0 /* SettingStep */,
+				83AF41532928EED9007EFA3D /* MainScreen.swift */,
+				83AF41572928FE7F007EFA3D /* OboardingContentView.swift */,
+				83AF41592928FFCA007EFA3D /* OnboardingStepOne.swift */,
+				83AF415F29292F57007EFA3D /* OnboardUserViewModel.swift */,
+				8373AB2A292C2E3A00B3A0F7 /* PageDot.swift */,
+				831C828C29315A71008209A0 /* OnboardingStepTwo.swift */,
+				831C828E29315ADC008209A0 /* OnboardingScreen.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		83AF41A2292A89FD007EFA3D /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				83AF41A3292A8A18007EFA3D /* Buttons.swift */,
+				83AF41A9292A917B007EFA3D /* Typography.swift */,
+				83AF41AB292A91BE007EFA3D /* Colors.swift */,
+				83AF41AF292A9B62007EFA3D /* TextFields.swift */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
+		83AF41B4292ADF92007EFA3D /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				83AF41B5292ADFA1007EFA3D /* LottieView.swift */,
+				8373AB32292C303F00B3A0F7 /* cycling_dark.json */,
+				8373AB2C292C303F00B3A0F7 /* cycling_light.json */,
+				8373AB2D292C303F00B3A0F7 /* notification_dark.json */,
+				8373AB30292C303F00B3A0F7 /* notification_light.json */,
+				8373AB33292C303F00B3A0F7 /* sad_dark.json */,
+				8373AB34292C303F00B3A0F7 /* sad_light.json */,
+				8373AB2F292C303F00B3A0F7 /* trip_dark.json */,
+				8373AB37292C303F00B3A0F7 /* trip_light.json */,
+				8373AB35292C303F00B3A0F7 /* wink_dark.json */,
+				8373AB44292C312600B3A0F7 /* happy_dark.json */,
+				8373AB45292C312600B3A0F7 /* happy_light.json */,
+				8373AB36292C303F00B3A0F7 /* wink_light.json */,
+				83AF41BD292AE163007EFA3D /* LottieAnimation.swift */,
+			);
+			path = Lottie;
+			sourceTree = "<group>";
+		};
 		83FE89EB27ED0FDC00A2ADB4 /* Park */ = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +230,7 @@
 				83FE89EE27ED10B200A2ADB4 /* ParkRow.swift */,
 				83541ED827F87C4800F650D5 /* MainView.swift */,
 				83541EDA27F87DA400F650D5 /* Models.swift */,
+				83AF415B29290206007EFA3D /* Observable.swift */,
 			);
 			path = Park;
 			sourceTree = "<group>";
@@ -128,6 +253,11 @@
 			dependencies = (
 			);
 			name = iosApp;
+			packageProductDependencies = (
+				83AF41B2292ADE92007EFA3D /* Lottie */,
+				831C829329316E4A008209A0 /* PermissionsSwiftUILocation */,
+				831C829529316E4A008209A0 /* PermissionsSwiftUINotification */,
+			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* iosApp.app */;
 			productType = "com.apple.product-type.application";
@@ -156,6 +286,10 @@
 				Base,
 			);
 			mainGroup = 7555FF72242A565900829871;
+			packageReferences = (
+				83AF41B1292ADE92007EFA3D /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				831C829229316E4A008209A0 /* XCRemoteSwiftPackageReference "PermissionsSwiftUI" */,
+			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -170,7 +304,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8373AB3C292C303F00B3A0F7 /* notification_light.json in Resources */,
+				8373AB46292C312600B3A0F7 /* happy_dark.json in Resources */,
+				8373AB3F292C303F00B3A0F7 /* sad_dark.json in Resources */,
+				8373AB39292C303F00B3A0F7 /* notification_dark.json in Resources */,
+				8373AB40292C303F00B3A0F7 /* sad_light.json in Resources */,
+				8373AB3E292C303F00B3A0F7 /* cycling_dark.json in Resources */,
+				8373AB38292C303F00B3A0F7 /* cycling_light.json in Resources */,
+				8373AB42292C303F00B3A0F7 /* wink_light.json in Resources */,
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
+				8373AB47292C312600B3A0F7 /* happy_light.json in Resources */,
+				8373AB3B292C303F00B3A0F7 /* trip_dark.json in Resources */,
+				8373AB43292C303F00B3A0F7 /* trip_light.json in Resources */,
+				8373AB41292C303F00B3A0F7 /* wink_dark.json in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,12 +348,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83AF41AA292A917B007EFA3D /* Typography.swift in Sources */,
+				83AF41B6292ADFA1007EFA3D /* LottieView.swift in Sources */,
+				83AF41AC292A91BE007EFA3D /* Colors.swift in Sources */,
+				831C828D29315A71008209A0 /* OnboardingStepTwo.swift in Sources */,
+				83AF415C29290206007EFA3D /* Observable.swift in Sources */,
+				83AF41A4292A8A18007EFA3D /* Buttons.swift in Sources */,
+				83AF416029292F57007EFA3D /* OnboardUserViewModel.swift in Sources */,
+				83AF41582928FE7F007EFA3D /* OboardingContentView.swift in Sources */,
+				8373AB2B292C2E3A00B3A0F7 /* PageDot.swift in Sources */,
+				831C829129316C1E008209A0 /* OnboardingStepThree.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				83AF415A2928FFCA007EFA3D /* OnboardingStepOne.swift in Sources */,
+				831C829B2932190E008209A0 /* OnboardingSettingsViewModel.swift in Sources */,
+				83AF41542928EED9007EFA3D /* MainScreen.swift in Sources */,
 				83FE89ED27ED0FFB00A2ADB4 /* ParkList.swift in Sources */,
 				83FE89EF27ED10B200A2ADB4 /* ParkRow.swift in Sources */,
 				83541EDB27F87DA400F650D5 /* Models.swift in Sources */,
+				83AF41B0292A9B62007EFA3D /* TextFields.swift in Sources */,
+				83AF41A1292A6AAB007EFA3D /* Theme.swift in Sources */,
+				831C828F29315ADC008209A0 /* OnboardingScreen.swift in Sources */,
 				83541ED927F87C4800F650D5 /* MainView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				83AF41BE292AE163007EFA3D /* LottieAnimation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,7 +428,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -320,7 +483,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -404,6 +567,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		831C829229316E4A008209A0 /* XCRemoteSwiftPackageReference "PermissionsSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jevonmao/PermissionsSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		83AF41B1292ADE92007EFA3D /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		831C829329316E4A008209A0 /* PermissionsSwiftUILocation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 831C829229316E4A008209A0 /* XCRemoteSwiftPackageReference "PermissionsSwiftUI" */;
+			productName = PermissionsSwiftUILocation;
+		};
+		831C829529316E4A008209A0 /* PermissionsSwiftUINotification */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 831C829229316E4A008209A0 /* XCRemoteSwiftPackageReference "PermissionsSwiftUI" */;
+			productName = PermissionsSwiftUINotification;
+		};
+		83AF41B2292ADE92007EFA3D /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 83AF41B1292ADE92007EFA3D /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7555FF73242A565900829871 /* Project object */;
 }

@@ -15,14 +15,15 @@ import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
+import fr.racomach.api.onboard.usecase.WelcomeStepState
 import fr.racomach.zigwheelo.R
-import fr.racomach.zigwheelo.onboarding.ui.OnboardingViewModel.State.Username
 import fr.racomach.zigwheelo.ui.theme.ZigWheeloTypography
 
 @Composable
 fun UsernameStep(
     modifier: Modifier = Modifier,
-    state: Username,
+    state: WelcomeStepState,
+    onSubmit: (String?) -> Unit,
 ) {
     Column(
         modifier = modifier,
@@ -33,17 +34,21 @@ fun UsernameStep(
             modifier = Modifier.padding(bottom = 8.dp),
             text = "Bienvenue !", style = ZigWheeloTypography.displayMedium,
         )
-        when (state) {
-            Username.Loading -> SmileyHappy(Modifier.size(150.dp))
-            is Username.Pending ->
-                if (state.error != null) SmileySad(Modifier.size(150.dp))
-                else SmileyHappy(Modifier.size(150.dp))
-            Username.Succeed -> SmileyWink(Modifier.size(150.dp))
+        if (state.loading) {
+            SmileyHappy(Modifier.size(150.dp))
+        } else if (state.id != null) {
+            SmileyWink(Modifier.size(150.dp))
+        } else {
+            if (state.error != null) {
+                SmileySad(Modifier.size(150.dp))
+            } else {
+                SmileyHappy(Modifier.size(150.dp))
+            }
         }
         UsernameInput(
-            onSubmit = (state as? Username.Pending)?.onSubmit ?: {},
-            error = (state as? Username.Pending)?.error,
-            enabled = state is Username.Pending
+            onSubmit = onSubmit,
+            error = state.error?.message,
+            enabled = !state.loading
         )
         PagerDot(
             count = 3,
