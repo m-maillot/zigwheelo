@@ -15,6 +15,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.7.20")
         classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+        classpath("com.squareup.sqldelight:gradle-plugin:1.5.4")
     }
 }
 plugins {
@@ -25,7 +26,7 @@ plugins {
     id("com.android.library") version "7.1.1" apply false
     kotlin("android") version "1.7.0" apply false
     id("com.google.dagger.hilt.android") version "2.44" apply false
-    id("dev.icerock.moko.kswift") version "0.6.1" apply false
+    id("com.squareup.sqldelight") version "1.5.4" apply false
 }
 
 allprojects {

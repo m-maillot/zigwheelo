@@ -6,10 +6,20 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed class CyclistEvent : Event {
+
     @Serializable
     data class Created(val username: String) : CyclistEvent()
+
     @Serializable
-    data class TripAdded(val trip: Trip, val roundSchedule: LocalTime?, val name: String?) : CyclistEvent()
+    data class TripAdded(val trip: Trip, val roundSchedule: LocalTime?, val name: String?) :
+        CyclistEvent()
+
+    @Serializable
+    data class NotificationSettingsUpdated(val token: String, val notificationAt: LocalTime) :
+        CyclistEvent()
+
+    @Serializable
+    object NotificationSettingsRemoved : CyclistEvent()
 }
 
 

@@ -1,6 +1,7 @@
 package fr.racomach.api
 
 import arrow.core.Either
+import arrow.core.left
 import fr.racomach.api.error.ErrorResponse
 import fr.racomach.api.onboard.api.OnboardApi
 import fr.racomach.api.onboard.api.OnboardApiImpl
@@ -32,10 +33,21 @@ class ZigWheeloApi internal constructor(
 suspend inline fun <reified T> Result<HttpResponse>.toEither(): Either<ErrorResponse, T> =
     if (this.isSuccess) {
         val response = getOrThrow()
-        if (response.status == HttpStatusCode.OK) {
-            Either.Right(response.body())
-        } else {
-            Either.Left(response.body())
+        when (response.status) {
+            HttpStatusCode.OK -> Either.Right(response.body())
+            HttpStatusCode.Accepted -> Either.Right(Unit as T)
+            HttpStatusCode.Unauthorized -> Either.Left(
+                ErrorResponse(
+                    "AUTH",
+                    "Utilisateur non authentifié"
+                )
+            )
+            else -> runCatching { response.body<ErrorResponse>() }.getOrElse {
+                ErrorResponse(
+                    "FATAL",
+                    it.message ?: "erreur inconnue"
+                )
+            }.left()
         }
     } else {
         Either.Left(ErrorResponse("NETWORK", exceptionOrNull()?.message ?: "erreur inconnue"))

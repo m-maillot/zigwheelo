@@ -13,6 +13,12 @@ suspend inline fun <reified T : Any> Either<Throwable, T>.toRespond(call: Applic
     { call.respond(it) }
 )
 
+suspend inline fun <reified T : Any> Either<Throwable, T>.toRespondAccepted(call: ApplicationCall) =
+    fold(
+        { call.handleError(it) },
+        { call.respond(HttpStatusCode.Accepted) }
+    )
+
 suspend fun ApplicationCall.handleError(error: Throwable) = when (error) {
     is HttpError -> respond(error.status, error.content)
     is MissingRequestParameterException -> respond(
@@ -22,6 +28,9 @@ suspend fun ApplicationCall.handleError(error: Throwable) = when (error) {
 
     else -> respond(
         HttpStatusCode.InternalServerError,
-        ErrorResponse(error::class.java.simpleName, error.localizedMessage)
+        ErrorResponse(
+            error::class.java.simpleName,
+            error.localizedMessage ?: error.message ?: "erreur inconnue"
+        )
     )
 }

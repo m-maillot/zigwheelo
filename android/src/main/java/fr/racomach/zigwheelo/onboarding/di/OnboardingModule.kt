@@ -1,11 +1,13 @@
-package fr.racomach.zigwheelo.repository.di
+package fr.racomach.zigwheelo.onboarding.di
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import fr.racomach.api.ZigWheeloApi
-import fr.racomach.api.createApi
+import fr.racomach.api.ZigWheeloDependencies
+import fr.racomach.api.create
 import fr.racomach.api.onboard.usecase.OnboardUser
 import fr.racomach.zigwheelo.BuildConfig
 import fr.racomach.zigwheelo.utils.isEmulator
@@ -16,10 +18,11 @@ abstract class OnboardingModule {
 
     companion object {
         @Provides
-        fun provideApi(
-            // Potential dependencies of this type
-        ): ZigWheeloApi {
-            return createApi(
+        fun provideDependencies(
+            @ApplicationContext context: Context,
+        ): ZigWheeloDependencies {
+            return ZigWheeloDependencies.Companion.create(
+                context,
                 if (BuildConfig.DEBUG)
                     if (isEmulator())
                         "http://10.0.2.2:9580"
@@ -31,8 +34,8 @@ abstract class OnboardingModule {
         }
 
         @Provides
-        fun provideOnboardUser(api: ZigWheeloApi): OnboardUser {
-            return OnboardUser(api)
+        fun provideOnboardUser(dependencies: ZigWheeloDependencies): OnboardUser {
+            return OnboardUser(dependencies)
         }
     }
 }

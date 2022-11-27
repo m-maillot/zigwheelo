@@ -21,4 +21,10 @@ sealed class CyclistCommand(
         val roundTripStart: LocalTime? = null,
         val name: String? = null
     ) : CyclistCommand(cyclistId)
+
+    data class SetupNotification(
+        val cyclistId: AggregateId,
+        val token: String?,
+        val notificationAt: LocalTime?
+    ) : CyclistCommand(cyclistId)
 }

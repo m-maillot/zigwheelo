@@ -26,13 +26,14 @@ import com.google.accompanist.permissions.*
 import fr.racomach.zigwheelo.R
 import fr.racomach.zigwheelo.ui.theme.ZigWheeloTypography
 import fr.racomach.zigwheelo.ui.theme.ZigwheeloTheme3
+import kotlinx.datetime.LocalTime
 import java.util.*
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun SettingsStep(
     modifier: Modifier = Modifier,
-    onAcceptNotification: (time: Pair<Int, Int>) -> Unit,
+    onAcceptNotification: (time: LocalTime) -> Unit,
 ) {
     val cameraPermissionState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         rememberPermissionState(
@@ -52,13 +53,13 @@ fun SettingsStep(
         }
     }
 
-    val timeSelected = remember { mutableStateOf(7 to 30) }
+    val timeSelected = remember { mutableStateOf(LocalTime(7, 30)) }
 
     val timePickerDialog = TimePickerDialog(
         LocalContext.current,
         { _, hour: Int, minute: Int ->
-            timeSelected.value = hour to minute
-        }, timeSelected.value.first, timeSelected.value.second, false
+            timeSelected.value = LocalTime(hour, minute)
+        }, timeSelected.value.hour, timeSelected.value.minute, true
     )
 
     Column(
@@ -84,8 +85,8 @@ fun SettingsStep(
                 Text("Recevoir la notification vers :")
                 Text(
                     text = "${
-                        timeSelected.value.first.toString().padStart(2, '0')
-                    }:${timeSelected.value.second.toString().padStart(2, '0')}",
+                        timeSelected.value.hour.toString().padStart(2, '0')
+                    }:${timeSelected.value.minute.toString().padStart(2, '0')}",
                     style = ZigWheeloTypography.bodyLarge,
                 )
                 OutlinedButton(onClick = { timePickerDialog.show() }) {

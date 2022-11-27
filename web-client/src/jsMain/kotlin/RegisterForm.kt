@@ -1,13 +1,7 @@
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import com.benasher44.uuid.Uuid
-import fr.racomach.api.ZigWheeloApi
-import fr.racomach.api.cyclist.usecase.CreateCyclist
-import fr.racomach.api.cyclist.usecase.CreateCyclistAction
-import fr.racomach.api.cyclist.usecase.CreateCyclistState
-import kotlinx.browser.window
+import fr.racomach.api.onboard.usecase.WelcomeStepState
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.disabled
 import org.jetbrains.compose.web.css.*
@@ -17,11 +11,12 @@ import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
-fun RegisterForm(onCreated: (id: Uuid) -> Unit) {
-    val create = CreateCyclist(ZigWheeloApi.create("http://localhost:9580", true))
+fun RegisterForm(
+    state: WelcomeStepState,
+    onSubmit: (username: String?) -> Unit
+) {
 
     val usernameState = remember { mutableStateOf("") }
-    val state = create.observeState().collectAsState()
 
     Div(attrs = { style { RegisterFormStyles.form } }) {
         Div(attrs = { style { RegisterFormStyles.formItem } }) {
@@ -31,39 +26,20 @@ fun RegisterForm(onCreated: (id: Uuid) -> Unit) {
             }
         }
 
-        when (val currentState = state.value) {
-            is CreateCyclistState.Created -> {
-                window.localStorage.setItem("cyclistID", currentState.id.toString())
-                onCreated(currentState.id)
+        state.error?.let { error ->
+            Div(attrs = { style { RegisterFormStyles.formItem } }) {
+                Text("Erreur: ${error.message} (${error.type})")
             }
-            CreateCyclistState.Creating -> {
-                Div(attrs = { style { RegisterFormStyles.formItem } }) {
-                    Button(
-                        attrs = {
-                            disabled()
-                        }
-                    ) {
-                        Text("Création en cours...")
-                    }
+        }
+
+        Div(attrs = { style { RegisterFormStyles.formItem } }) {
+            Button(
+                attrs = {
+                    onClick { onSubmit(usernameState.value) }
+                    if (state.loading) disabled()
                 }
-            }
-            is CreateCyclistState.Error, CreateCyclistState.Pending -> {
-                if (currentState is CreateCyclistState.Error) {
-                    Div(attrs = { style { RegisterFormStyles.formItem } }) {
-                        Text("Erreur: ${currentState.detail} (${currentState.type})")
-                    }
-                }
-                Div(attrs = { style { RegisterFormStyles.formItem } }) {
-                    Button(
-                        attrs = {
-                            onClick {
-                                create.dispatch(CreateCyclistAction.Create(usernameState.value))
-                            }
-                        }
-                    ) {
-                        Text("Valider")
-                    }
-                }
+            ) {
+                Text("Valider")
             }
         }
 

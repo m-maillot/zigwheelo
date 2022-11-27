@@ -5,14 +5,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.racomach.api.onboard.usecase.OnboardingState
+import fr.racomach.api.onboard.model.Step
 import fr.racomach.api.onboard.usecase.OnboardingAction
-import fr.racomach.api.onboard.usecase.Step
+import fr.racomach.api.onboard.usecase.OnboardingState
 import fr.racomach.api.onboard.usecase.WelcomeStepState
 import fr.racomach.zigwheelo.ui.theme.ZigwheeloTheme3
 
@@ -41,9 +42,11 @@ fun MainScreen(
                 onSkip = { dispatch(OnboardingAction.SkipTrip) }
             )
             Step.SETTINGS -> SettingsStep(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                /* TODO dispatch action */
+                modifier = Modifier.padding(16.dp),
+                onAcceptNotification = { dispatch(OnboardingAction.UpdateSettings("", it)) }
+            )
+            Step.DONE -> {
+                Text(text = "Hello world !")
             }
         }
     }

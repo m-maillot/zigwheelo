@@ -1,0 +1,21 @@
+import fr.racomach.api.onboard.model.Step;
+
+CREATE TABLE Settings (
+    userId  TEXT,
+    onboardStep TEXT AS Step NOT NULL
+);
+
+insertSettings:
+INSERT INTO Settings(userId, onboardStep)
+VALUES(?, ?);
+
+selectSettings:
+SELECT * FROM Settings LIMIT 0,1;
+
+updateOnboardStep:
+UPDATE Settings
+SET `onboardStep`=?;
+
+updateUser:
+UPDATE Settings
+SET `userId`=?;

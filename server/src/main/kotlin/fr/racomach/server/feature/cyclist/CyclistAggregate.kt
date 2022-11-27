@@ -1,6 +1,7 @@
 package fr.racomach.server.feature.cyclist
 
 import arrow.core.Either
+import arrow.core.right
 import fr.racomach.event.sourcing.Aggregate
 import fr.racomach.event.sourcing.Error
 import fr.racomach.event.sourcing.command.CyclistCommand
@@ -18,6 +19,7 @@ class CyclistAggregate : Aggregate<CyclistEvent, CyclistCommand> {
             when (command) {
                 is CyclistCommand.AddTrip -> apply(command, projection)
                 is CyclistCommand.Create -> apply(history, command)
+                is CyclistCommand.SetupNotification -> apply(command)
             }
         }
 
@@ -44,6 +46,18 @@ class CyclistAggregate : Aggregate<CyclistEvent, CyclistCommand> {
         )
     }
 
+    private fun apply(command: CyclistCommand.SetupNotification): Either<Error, List<CyclistEvent>> {
+        if (command.token != null && command.notificationAt != null) {
+            return listOf(
+                CyclistEvent.NotificationSettingsUpdated(
+                    command.token,
+                    command.notificationAt
+                )
+            ).right()
+        }
+        return listOf(CyclistEvent.NotificationSettingsRemoved).right()
+    }
+
     private fun Trip.overlap(trip: Trip): Boolean {
         val start = schedule.hour * 60 + schedule.minute
         val end = start + duration.inWholeMinutes
@@ -66,8 +80,9 @@ class CyclistAggregate : Aggregate<CyclistEvent, CyclistCommand> {
             history.forEach {
                 when (it) {
                     is CyclistEvent.TripAdded -> apply(it)
-                    is CyclistEvent.Created -> {/* Nothing to do */
-                    }
+                    is CyclistEvent.Created -> {}
+                    is CyclistEvent.NotificationSettingsUpdated -> {}
+                    CyclistEvent.NotificationSettingsRemoved -> {}
                 }
             }
         }

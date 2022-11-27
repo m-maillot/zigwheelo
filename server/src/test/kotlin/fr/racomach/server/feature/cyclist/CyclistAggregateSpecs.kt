@@ -58,4 +58,23 @@ class CyclistAggregateSpecs : FunSpec({
 
         response shouldBeLeft DomainError.Cyclist.DuplicateTrip(trip2.schedule)
     }
+
+    test("A la modification des paramètres sur la notification, on doit retourner un évènement NotificationSettingsUpdated") {
+        val command = CyclistCommand.SetupNotification(aggregateId, "TOKEN", LocalTime(8, 0))
+        val expectedEvent =
+            listOf(CyclistEvent.NotificationSettingsUpdated("TOKEN", LocalTime(8, 0)))
+
+        val response = aggregate.apply(emptyList(), command)
+
+        response shouldBeRight expectedEvent
+    }
+
+    test("A la modification des paramètres sur la notification sans token, on doit retourner un évènement NotificationSettingsRemoved") {
+        val command = CyclistCommand.SetupNotification(aggregateId, token = null, LocalTime(8, 0))
+        val expectedEvent = listOf(CyclistEvent.NotificationSettingsRemoved)
+
+        val response = aggregate.apply(emptyList(), command)
+
+        response shouldBeRight expectedEvent
+    }
 })

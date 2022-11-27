@@ -4,14 +4,15 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.benasher44.uuid.Uuid
-import fr.racomach.api.ZigWheeloApi
+import fr.racomach.api.ZigWheeloDependencies
 import fr.racomach.api.error.ErrorResponse
 import fr.racomach.api.onboard.api.dto.CreateRequest
+import fr.racomach.api.onboard.api.dto.SetupNotificationRequest
+import fr.racomach.api.onboard.model.Step
 import fr.racomach.api.usecase.Action
 import fr.racomach.api.usecase.Effect
 import fr.racomach.api.usecase.State
 import fr.racomach.api.usecase.Store
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -20,10 +21,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-
-enum class Step {
-    WELCOME, TRIP, SETTINGS
-}
+import kotlinx.datetime.LocalTime
 
 data class WelcomeStepState(
     val loading: Boolean = false,
@@ -47,6 +45,7 @@ data class OnboardingState(
     val welcomeStep: WelcomeStepState? = null,
     val tripStep: TripStepState? = null,
     val settingStep: SettingStepState? = null,
+    val done: Boolean = false,
 ) : State {
     fun currentStep() =
         if (welcomeStep != null)
@@ -55,6 +54,8 @@ data class OnboardingState(
             Step.TRIP
         else if (settingStep != null)
             Step.SETTINGS
+        else if (done)
+            Step.DONE
         else
             throw IllegalStateException("Missing data")
 }
@@ -63,6 +64,10 @@ sealed class OnboardingAction : Action {
     data class CreateUser(val username: String?) : OnboardingAction()
     data class CreateTrip(val name: String?) : OnboardingAction()
     object SkipTrip : OnboardingAction()
+    data class UpdateSettings(val token: String?, val notificationAt: LocalTime?) :
+        OnboardingAction()
+
+    object SkipSettings : OnboardingAction()
 }
 
 sealed class OnboardingEffect : Effect {
@@ -70,9 +75,12 @@ sealed class OnboardingEffect : Effect {
 }
 
 class OnboardUser(
-    private val zigWheeloApi: ZigWheeloApi
+    dependencies: ZigWheeloDependencies,
 ) : Store<OnboardingState, OnboardingAction, OnboardingEffect>,
     CoroutineScope by CoroutineScope(Dispatchers.Main) {
+
+    private val api = dependencies.api
+    private val database = dependencies.database
 
     private val state =
         MutableStateFlow(OnboardingState(welcomeStep = WelcomeStepState()))
@@ -82,8 +90,17 @@ class OnboardUser(
 
     override fun observeSideEffect(): Flow<OnboardingEffect> = sideEffect
 
+    init {
+        val settings = database.loadSettings()
+        state.value = when (settings.onboardStep) {
+            Step.WELCOME -> OnboardingState(welcomeStep = WelcomeStepState())
+            Step.TRIP -> OnboardingState(tripStep = TripStepState())
+            Step.SETTINGS -> OnboardingState(settingStep = SettingStepState())
+            Step.DONE -> OnboardingState(done = true)
+        }
+    }
+
     override fun dispatch(action: OnboardingAction) {
-        Napier.v(tag = "OnboardUser", message = "Action: $action")
         when (action) {
             is OnboardingAction.CreateUser -> {
                 launch { createCyclist(action.username) }
@@ -92,7 +109,15 @@ class OnboardUser(
                 launch { createTrip(action.name) }
             }
             OnboardingAction.SkipTrip -> {
+                database.updateOnboardStep(Step.SETTINGS)
                 state.value = OnboardingState(settingStep = SettingStepState())
+            }
+            is OnboardingAction.UpdateSettings -> {
+                launch { setupNotification(action.token, action.notificationAt) }
+            }
+            OnboardingAction.SkipSettings -> {
+                database.updateOnboardStep(Step.DONE)
+                state.value = OnboardingState(done = true)
             }
         }
     }
@@ -111,8 +136,10 @@ class OnboardUser(
 
         validateCyclistUsername(username).tap { usernameValidated ->
             state.value = OnboardingState(welcomeStep = WelcomeStepState(loading = true))
-            zigWheeloApi.onboard.create(CreateRequest(usernameValidated))
+            api.onboard.create(CreateRequest(usernameValidated))
                 .tap {
+                    database.setupUser(it.cyclistId)
+                    database.updateOnboardStep(Step.TRIP)
                     state.value = OnboardingState(welcomeStep = WelcomeStepState(id = it.cyclistId))
                     delay(1000)
                     state.value = OnboardingState(tripStep = TripStepState())
@@ -127,5 +154,17 @@ class OnboardUser(
 
     private fun createTrip(name: String?) {
         state.value = OnboardingState(tripStep = TripStepState(loading = true))
+    }
+
+    private suspend fun setupNotification(token: String?, notificationAt: LocalTime?) {
+        state.value = OnboardingState(settingStep = SettingStepState(loading = true))
+        api.onboard.setupNotification(SetupNotificationRequest(token, notificationAt))
+            .tap {
+                database.updateOnboardStep(Step.DONE)
+                state.value = OnboardingState(done = true)
+            }
+            .tapLeft {
+                state.value = OnboardingState(settingStep = SettingStepState(error = it))
+            }
     }
 }

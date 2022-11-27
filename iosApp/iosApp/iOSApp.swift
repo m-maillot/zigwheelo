@@ -4,12 +4,13 @@ import api
 @main
 class iOSApp: App {
     
-    let api: ZigWheeloApi
+    let dependencies: ZigWheeloDependencies
     let store: OnboardUserViewModel
     
     required init() {
-        api = ZigWheeloApi.Companion().create(baseUrl: "http://192.168.1.11:9580", withLog: true)
-        store = OnboardUserViewModel(store: OnboardUser(zigWheeloApi: api))
+        dependencies = ZigWheeloDependencies.Companion().create(baseUrl: "http://192.168.1.11:9580", withLog: true)
+        store = OnboardUserViewModel(store: OnboardUser(dependencies: dependencies))
+        
         print("API Initialied")
     }
     

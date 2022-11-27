@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("com.android.library")
-    id("dev.icerock.moko.kswift")
+    id("com.squareup.sqldelight")
 }
 
 android {
@@ -19,13 +19,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     namespace = "fr.racomach.api"
-}
-
-kswift {
-    install(dev.icerock.moko.kswift.plugin.feature.PlatformExtensionFunctionsFeature)
-    install(dev.icerock.moko.kswift.plugin.feature.SealedToSwiftEnumFeature)
-
-    excludeLibrary("kotlinx-coroutines-core")
 }
 
 kotlin {
@@ -92,6 +85,12 @@ kotlin {
                 implementation(libs.bundles.apiIOSDependencies)
             }
         }
+    }
+}
+
+sqldelight {
+    database("ZigWheeloDatabase") {
+        packageName = "fr.racomach.zigwheelo"
     }
 }
 

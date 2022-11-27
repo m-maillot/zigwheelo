@@ -11,6 +11,7 @@ version = "0.0.1"
 
 application {
     mainClass.set("fr.racomach.server.ApplicationKt")
+    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=true")
 }
 
 dependencies {

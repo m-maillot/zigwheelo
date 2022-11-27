@@ -4,6 +4,7 @@ import arrow.core.Either
 import fr.racomach.api.onboard.api.dto.AddTripRequest
 import fr.racomach.api.onboard.api.dto.CreateRequest
 import fr.racomach.api.onboard.api.dto.CreateResponse
+import fr.racomach.api.onboard.api.dto.SetupNotificationRequest
 import fr.racomach.event.sourcing.AggregateId
 import fr.racomach.event.sourcing.CommandHandler
 import fr.racomach.event.sourcing.command.CyclistCommand
@@ -11,6 +12,7 @@ import fr.racomach.server.error.DomainError
 import fr.racomach.server.plugins.AuthenticatedUser
 import fr.racomach.server.repository.UserRepository
 import fr.racomach.server.util.toRespond
+import fr.racomach.server.util.toRespondAccepted
 import fr.racomach.values.Trip
 import fr.racomach.values.toLocation
 import io.ktor.server.application.*
@@ -37,6 +39,13 @@ fun Route.cyclist(
                 .map { it.id.toString() }
                 .toRespond(call)
         }
+
+        post<SetupNotificationRequest>("/cyclist/notification") { input ->
+            val cyclistId = (this.call.authentication.principal as AuthenticatedUser).id
+            commandHandler.apply(input.toCommand(cyclistId))
+                .map { it.id.toString() }
+                .toRespondAccepted(call)
+        }
     }
 }
 
@@ -45,4 +54,10 @@ private fun AddTripRequest.toCommand(id: AggregateId) = CyclistCommand.AddTrip(
     trip = Trip(from.toLocation(), to.toLocation(), schedule, duration),
     roundTripStart,
     name,
+)
+
+private fun SetupNotificationRequest.toCommand(id: AggregateId) = CyclistCommand.SetupNotification(
+    cyclistId = id,
+    token,
+    notificationAt,
 )
