@@ -3,33 +3,39 @@ import CorePermissionsSwiftUI
 import PermissionsSwiftUINotification
 import SwiftUI
 
-extension OnboardingStepThree {
+enum PermissionState {
+    case Accepted
+    case Rational
+    case Denied
+}
+
+extension OnboardingSettingsStep {
     @MainActor
     class OnboardingSettingsViewModel : ObservableObject {
-        @Published private(set) var needPermission: Bool = true
+        @Published private(set) var permissionState: PermissionState = .Rational
         
-        func getPermissionState() async -> Bool {
+        func getPermissionState() async -> PermissionState {
             let current = UNUserNotificationCenter.current()
             let result = await current.notificationSettings()
             switch result.authorizationStatus {
             case .notDetermined:
-                return false
+                return .Rational
             case .denied:
-                return false
+                return .Denied
             case .authorized:
-                return true
+                return .Accepted
             case .provisional:
-                return false
+                return .Accepted
             case .ephemeral:
-                return false
+                return .Accepted
             @unknown default:
-                return false
+                return .Rational
             }
         }
         
         @MainActor
-        func hasPermission() async {
-            needPermission = await getPermissionState()
+        func checkPermission() async {
+            permissionState = await getPermissionState()
         }
     }
 }

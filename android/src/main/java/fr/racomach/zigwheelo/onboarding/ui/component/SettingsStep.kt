@@ -1,12 +1,10 @@
 package fr.racomach.zigwheelo.onboarding.ui.component
 
-import android.app.TimePickerDialog
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,7 +12,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +20,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.accompanist.permissions.*
+import fr.racomach.api.onboard.usecase.SettingStepState
 import fr.racomach.zigwheelo.R
 import fr.racomach.zigwheelo.ui.theme.ZigWheeloTypography
 import fr.racomach.zigwheelo.ui.theme.ZigwheeloTheme3
@@ -33,34 +31,17 @@ import java.util.*
 @Composable
 fun SettingsStep(
     modifier: Modifier = Modifier,
+    state: SettingStepState,
     onAcceptNotification: (time: LocalTime) -> Unit,
+    onDenyNotification: () -> Unit,
 ) {
-    val cameraPermissionState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        rememberPermissionState(
-            android.Manifest.permission.POST_NOTIFICATIONS
-        )
+    val notificationPermissionState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        rememberPermissionState(postNotification)
     } else {
-        object : PermissionState {
-            override val permission: String
-                get() = ""
-            override val status: PermissionStatus
-                get() = PermissionStatus.Granted
-
-            override fun launchPermissionRequest() {
-                // Do notihng
-            }
-
-        }
+        grantedPermission
     }
 
     val timeSelected = remember { mutableStateOf(LocalTime(7, 30)) }
-
-    val timePickerDialog = TimePickerDialog(
-        LocalContext.current,
-        { _, hour: Int, minute: Int ->
-            timeSelected.value = LocalTime(hour, minute)
-        }, timeSelected.value.hour, timeSelected.value.minute, true
-    )
 
     Column(
         modifier = modifier,
@@ -77,28 +58,27 @@ fun SettingsStep(
             textAlign = TextAlign.Center,
             text = "Soyez notifié d'un changement de météo pour vos trajets afin de mieux préparer votre journée"
         )
-        if (cameraPermissionState.status.isGranted) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text("Recevoir la notification vers :")
-                Text(
-                    text = "${
-                        timeSelected.value.hour.toString().padStart(2, '0')
-                    }:${timeSelected.value.minute.toString().padStart(2, '0')}",
-                    style = ZigWheeloTypography.bodyLarge,
-                )
-                OutlinedButton(onClick = { timePickerDialog.show() }) {
-                    Text("Changer l'heure")
+        when (notificationPermissionState.status) {
+            is PermissionStatus.Denied -> {
+                if (notificationPermissionState.status.shouldShowRationale) {
+                    Button(onClick = { notificationPermissionState.launchPermissionRequest() }) {
+                        Text(text = "Autoriser les notifications")
+                    }
+                } else {
+                    Text(text = "Vous ne souhaitez pas recevoir de notification")
+                    Button(onClick = { onDenyNotification() }, enabled = !state.loading) {
+                        Text("Continuer")
+                    }
                 }
             }
-            Button(onClick = { onAcceptNotification(timeSelected.value) }) {
-                Text("Valider")
-            }
-        } else {
-            Button(onClick = { cameraPermissionState.launchPermissionRequest() }) {
-                Text(text = "Autoriser les notifications")
+            PermissionStatus.Granted -> {
+                TimePicker(onChange = { timeSelected.value = it })
+                Button(
+                    onClick = { onAcceptNotification(timeSelected.value) },
+                    enabled = !state.loading,
+                ) {
+                    Text("Valider")
+                }
             }
         }
         PagerDot(
@@ -122,6 +102,24 @@ private fun NotificationPicture(modifier: Modifier = Modifier) {
     )
 }
 
+val postNotification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+    android.Manifest.permission.POST_NOTIFICATIONS
+} else {
+    "android.permission.POST_NOTIFICATIONS"
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+val grantedPermission = object : PermissionState {
+    override val permission: String
+        get() = postNotification
+    override val status: PermissionStatus
+        get() = PermissionStatus.Granted
+
+    override fun launchPermissionRequest() {
+        // Do notihng
+    }
+}
+
 @Preview(
     showBackground = true,
     showSystemUi = true,
@@ -130,6 +128,10 @@ private fun NotificationPicture(modifier: Modifier = Modifier) {
 @Composable
 private fun SettingsStepPreview() {
     ZigwheeloTheme3 {
-        SettingsStep(onAcceptNotification = {})
+        SettingsStep(
+            state = SettingStepState(),
+            onAcceptNotification = {},
+            onDenyNotification = {}
+        )
     }
 }

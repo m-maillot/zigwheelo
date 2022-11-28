@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct OnboardingStepOne: View {
+struct OnboardingProfileStep: View {
     
     @State private var username: String = ""
     
@@ -35,33 +35,33 @@ struct OnboardingStepOne: View {
     }
 }
 
-struct OnboardProfil_Previews: PreviewProvider {
+struct OnboardProfile_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingStepOne(onSubmit: { username in
+        OnboardingProfileStep(onSubmit: { username in
             // Do nothing
         })
     }
 }
 
-struct OnboardProfilSucceed_Previews: PreviewProvider {
+struct OnboardProfileSucceed_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingStepOne(onSubmit: { username in
+        OnboardingProfileStep(onSubmit: { username in
             // Do nothing
         }, usernameSucceed: "Pseudo")
     }
 }
 
-struct OnboardProfilFailed_Previews: PreviewProvider {
+struct OnboardProfileFailed_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingStepOne(onSubmit: { username in
+        OnboardingProfileStep(onSubmit: { username in
             // Do nothing
         }, error: "Nom invalide")
     }
 }
 
-struct OnboardProfilLoading_Previews: PreviewProvider {
+struct OnboardProfileLoading_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingStepOne(onSubmit: { username in
+        OnboardingProfileStep(onSubmit: { username in
             // Do nothing
         }, loading: true)
     }

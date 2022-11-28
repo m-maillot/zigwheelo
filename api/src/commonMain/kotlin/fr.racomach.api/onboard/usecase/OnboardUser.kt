@@ -38,7 +38,6 @@ data class TripStepState(
 data class SettingStepState(
     val loading: Boolean = false,
     val error: ErrorResponse? = null,
-    val id: Uuid? = null,
 )
 
 data class OnboardingState(
@@ -64,7 +63,11 @@ sealed class OnboardingAction : Action {
     data class CreateUser(val username: String?) : OnboardingAction()
     data class CreateTrip(val name: String?) : OnboardingAction()
     object SkipTrip : OnboardingAction()
-    data class UpdateSettings(val token: String?, val notificationAt: LocalTime?) :
+    data class UpdateSettings(
+        val acceptNotification: Boolean = true,
+        val token: String? = null,
+        val notificationAt: LocalTime? = null,
+    ) :
         OnboardingAction()
 
     object SkipSettings : OnboardingAction()

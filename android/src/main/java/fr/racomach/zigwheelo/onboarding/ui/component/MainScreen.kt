@@ -43,7 +43,16 @@ fun MainScreen(
             )
             Step.SETTINGS -> SettingsStep(
                 modifier = Modifier.padding(16.dp),
-                onAcceptNotification = { dispatch(OnboardingAction.UpdateSettings("", it)) }
+                state = state.settingStep!!,
+                onAcceptNotification = {
+                    dispatch(
+                        OnboardingAction.UpdateSettings(
+                            token = "",
+                            notificationAt = it
+                        )
+                    )
+                },
+                onDenyNotification = { dispatch(OnboardingAction.UpdateSettings(acceptNotification = false)) }
             )
             Step.DONE -> {
                 Text(text = "Hello world !")
