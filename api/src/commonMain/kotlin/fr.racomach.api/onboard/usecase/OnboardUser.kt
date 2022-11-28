@@ -26,7 +26,7 @@ import kotlinx.datetime.LocalTime
 data class WelcomeStepState(
     val loading: Boolean = false,
     val error: ErrorResponse? = null,
-    val id: Uuid? = null,
+    val username: String? = null,
 )
 
 data class TripStepState(
@@ -140,7 +140,8 @@ class OnboardUser(
                 .tap {
                     database.setupUser(it.cyclistId)
                     database.updateOnboardStep(Step.TRIP)
-                    state.value = OnboardingState(welcomeStep = WelcomeStepState(id = it.cyclistId))
+                    state.value =
+                        OnboardingState(welcomeStep = WelcomeStepState(username = username))
                     delay(1000)
                     state.value = OnboardingState(tripStep = TripStepState())
                 }

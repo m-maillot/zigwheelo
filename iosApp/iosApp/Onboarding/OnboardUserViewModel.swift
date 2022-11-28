@@ -3,7 +3,7 @@ import Foundation
 import api
 
 class OnboardUserViewModel: ObservableObject {
-    @Published public var state: OnboardingState = OnboardingState(welcomeStep: WelcomeStepState(loading: false, error: nil, id: nil), tripStep: nil, settingStep: nil, done: false)
+    @Published public var state: OnboardingState = OnboardingState(welcomeStep: WelcomeStepState(loading: false, error: nil, username: nil), tripStep: nil, settingStep: nil, done: false)
     @Published public var sideEffect: OnboardingEffect?
     
     let store: OnboardUser

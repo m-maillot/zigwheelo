@@ -176,13 +176,21 @@
 			path = SettingStep;
 			sourceTree = "<group>";
 		};
+		836E486A293552AA00028EF0 /* ProfilStep */ = {
+			isa = PBXGroup;
+			children = (
+				83AF41592928FFCA007EFA3D /* OnboardingStepOne.swift */,
+			);
+			path = ProfilStep;
+			sourceTree = "<group>";
+		};
 		83AF41522928EE95007EFA3D /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				836E486A293552AA00028EF0 /* ProfilStep */,
 				831C8299293218ED008209A0 /* SettingStep */,
 				83AF41532928EED9007EFA3D /* MainScreen.swift */,
 				83AF41572928FE7F007EFA3D /* OboardingContentView.swift */,
-				83AF41592928FFCA007EFA3D /* OnboardingStepOne.swift */,
 				83AF415F29292F57007EFA3D /* OnboardUserViewModel.swift */,
 				8373AB2A292C2E3A00B3A0F7 /* PageDot.swift */,
 				831C828C29315A71008209A0 /* OnboardingStepTwo.swift */,

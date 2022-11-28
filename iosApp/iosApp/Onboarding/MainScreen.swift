@@ -22,7 +22,7 @@ struct MainScreen: OnboardUserConnectedView {
                     onSubmit: props.submitUsername,
                     error: props.state.welcomeStep?.error?.message,
                     loading: props.state.welcomeStep?.loading ?? false,
-                    succeed: props.state.welcomeStep?.id != nil
+                    usernameSucceed: props.state.welcomeStep?.username
                 )
             } else if (props.state.currentStep() == Step.trip) {
                 OnboardingStepTwo(skip: props.skipTrip, addTrip: {})

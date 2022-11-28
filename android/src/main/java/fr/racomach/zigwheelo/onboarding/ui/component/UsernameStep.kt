@@ -1,16 +1,15 @@
 package fr.racomach.zigwheelo.onboarding.ui.component
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -18,6 +17,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import fr.racomach.api.onboard.usecase.WelcomeStepState
 import fr.racomach.zigwheelo.R
 import fr.racomach.zigwheelo.ui.theme.ZigWheeloTypography
+import fr.racomach.zigwheelo.ui.theme.ZigwheeloTheme3
 
 @Composable
 fun UsernameStep(
@@ -32,11 +32,11 @@ fun UsernameStep(
     ) {
         Text(
             modifier = Modifier.padding(bottom = 8.dp),
-            text = "Bienvenue !", style = ZigWheeloTypography.displayMedium,
+            text = "Votre profil", style = ZigWheeloTypography.displayMedium,
         )
         if (state.loading) {
             SmileyHappy(Modifier.size(150.dp))
-        } else if (state.id != null) {
+        } else if (state.username != null) {
             SmileyWink(Modifier.size(150.dp))
         } else {
             if (state.error != null) {
@@ -45,11 +45,15 @@ fun UsernameStep(
                 SmileyHappy(Modifier.size(150.dp))
             }
         }
-        UsernameInput(
-            onSubmit = onSubmit,
-            error = state.error?.message,
-            enabled = !state.loading
-        )
+        if (state.username != null) {
+            Text(text = "Bienvenue ${state.username} !", style = ZigWheeloTypography.headlineLarge)
+        } else {
+            UsernameInput(
+                onSubmit = onSubmit,
+                error = state.error?.message,
+                enabled = !state.loading
+            )
+        }
         PagerDot(
             count = 3,
             active = 1,
@@ -94,4 +98,56 @@ private fun SmileyWink(modifier: Modifier = Modifier) {
         modifier = modifier,
         composition = composition,
     )
+}
+
+@Preview(
+    showBackground = true,
+    device = Devices.NEXUS_6
+)
+@Composable
+private fun UsernameStepPreview() {
+    ZigwheeloTheme3 {
+        Box(modifier = Modifier.fillMaxSize()) {
+            UsernameStep(
+                modifier = Modifier.fillMaxSize(),
+                state = WelcomeStepState(),
+                onSubmit = {}
+            )
+        }
+    }
+}
+
+@Preview(
+    showBackground = true,
+    device = Devices.NEXUS_6
+)
+@Composable
+private fun UsernameStepPreviewLoading() {
+    ZigwheeloTheme3 {
+        Box(modifier = Modifier.fillMaxSize()) {
+            UsernameStep(
+                modifier = Modifier.fillMaxSize(),
+                state = WelcomeStepState(loading = true),
+                onSubmit = {}
+            )
+        }
+    }
+}
+
+
+@Preview(
+    showBackground = true,
+    device = Devices.NEXUS_6
+)
+@Composable
+private fun UsernameStepPreviewSucceed() {
+    ZigwheeloTheme3 {
+        Box(modifier = Modifier.fillMaxSize()) {
+            UsernameStep(
+                modifier = Modifier.fillMaxSize(),
+                state = WelcomeStepState(username = "Pseudo"),
+                onSubmit = {}
+            )
+        }
+    }
 }
