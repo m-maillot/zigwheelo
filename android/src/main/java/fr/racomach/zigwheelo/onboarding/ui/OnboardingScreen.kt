@@ -14,6 +14,6 @@ fun OnboardingScreen(
     MainScreen(
         modifier = modifier,
         state = state.value,
-        dispatch = viewModel.dispatch
+        dispatch = viewModel.dispatch,
     )
 }

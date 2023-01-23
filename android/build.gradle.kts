@@ -4,6 +4,7 @@ plugins {
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -29,7 +30,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = "1.4.0"
     }
 
     buildTypes {
@@ -80,6 +81,9 @@ dependencies {
     implementation(composeBom)
     implementation(project(":api"))
     implementation(libs.bundles.androidDependencies)
+    implementation(platform("com.google.firebase:firebase-bom:31.1.0"))
+    implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-messaging-ktx")
 
     kapt(libs.bundles.androidKaptDependencies)
 

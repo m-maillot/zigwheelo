@@ -69,7 +69,10 @@ fun MainScreen(
 @Composable
 private fun MainScreenPreview() {
     ZigwheeloTheme3(darkTheme = false) {
-        MainScreen(state = OnboardingState(welcomeStep = WelcomeStepState()), dispatch = {})
+        MainScreen(
+            state = OnboardingState(welcomeStep = WelcomeStepState()),
+            dispatch = {},
+        )
     }
 
 }
@@ -82,7 +85,10 @@ private fun MainScreenPreview() {
 @Composable
 private fun MainScreenDarkPreview() {
     ZigwheeloTheme3(darkTheme = true) {
-        MainScreen(state = OnboardingState(welcomeStep = WelcomeStepState()), dispatch = {})
+        MainScreen(
+            state = OnboardingState(welcomeStep = WelcomeStepState()),
+            dispatch = {},
+        )
     }
 
 }

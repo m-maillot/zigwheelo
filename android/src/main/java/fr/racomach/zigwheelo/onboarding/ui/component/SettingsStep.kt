@@ -1,6 +1,7 @@
 package fr.racomach.zigwheelo.onboarding.ui.component
 
 import android.os.Build
+import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -41,6 +42,8 @@ fun SettingsStep(
         grantedPermission
     }
 
+    Log.i("MMA-DEBUG", "Permission state : ${notificationPermissionState.status}")
+
     val timeSelected = remember { mutableStateOf(LocalTime(7, 30)) }
 
     Column(
@@ -60,16 +63,16 @@ fun SettingsStep(
         )
         when (notificationPermissionState.status) {
             is PermissionStatus.Denied -> {
-                if (notificationPermissionState.status.shouldShowRationale) {
-                    Button(onClick = { notificationPermissionState.launchPermissionRequest() }) {
-                        Text(text = "Autoriser les notifications")
-                    }
-                } else {
-                    Text(text = "Vous ne souhaitez pas recevoir de notification")
-                    Button(onClick = { onDenyNotification() }, enabled = !state.loading) {
-                        Text("Continuer")
-                    }
+                // if (notificationPermissionState.status.shouldShowRationale) {
+                Button(onClick = { notificationPermissionState.launchPermissionRequest() }) {
+                    Text(text = "Autoriser les notifications")
                 }
+                // } else {
+                //    Text(text = "Vous ne souhaitez pas recevoir de notification")
+                //    Button(onClick = { onDenyNotification() }, enabled = !state.loading) {
+                //        Text("Continuer")
+                //    }
+                //}
             }
             PermissionStatus.Granted -> {
                 TimePicker(onChange = { timeSelected.value = it })

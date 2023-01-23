@@ -20,6 +20,11 @@ dependencies {
 
     implementation(libs.bundles.serverDependencies)
 
+    // https://mvnrepository.com/artifact/com.google.firebase/firebase-admin
+    implementation ("com.google.firebase:firebase-admin:9.1.1") {
+        exclude(group = "com.google.cloud", module = "google-cloud-firestore")
+    }
+
     testImplementation(libs.bundles.testDependencies)
 }
 

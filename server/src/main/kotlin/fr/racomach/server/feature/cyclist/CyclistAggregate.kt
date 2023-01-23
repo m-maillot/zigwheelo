@@ -20,6 +20,7 @@ class CyclistAggregate : Aggregate<CyclistEvent, CyclistCommand> {
                 is CyclistCommand.AddTrip -> apply(command, projection)
                 is CyclistCommand.Create -> apply(history, command)
                 is CyclistCommand.SetupNotification -> apply(command)
+                is CyclistCommand.SendNotification -> apply(command, projection)
             }
         }
 
@@ -58,6 +59,15 @@ class CyclistAggregate : Aggregate<CyclistEvent, CyclistCommand> {
         return listOf(CyclistEvent.NotificationSettingsRemoved).right()
     }
 
+    private fun apply(
+        command: CyclistCommand.SendNotification,
+        projection: DecisionProjection
+    ): Either<Error, List<CyclistEvent>> =
+        projection.notificationToken?.let { token ->
+            listOf(CyclistEvent.NotificationReady(token, command.name)).right()
+        } ?: emptyList<CyclistEvent>().right()
+
+
     private fun Trip.overlap(trip: Trip): Boolean {
         val start = schedule.hour * 60 + schedule.minute
         val end = start + duration.inWholeMinutes
@@ -71,6 +81,8 @@ class CyclistAggregate : Aggregate<CyclistEvent, CyclistCommand> {
     private class DecisionProjection(history: List<CyclistEvent>) {
 
         val trips: MutableList<Trip> = mutableListOf()
+        var notificationToken: String? = null
+            private set
 
         init {
             apply(history)
@@ -81,8 +93,13 @@ class CyclistAggregate : Aggregate<CyclistEvent, CyclistCommand> {
                 when (it) {
                     is CyclistEvent.TripAdded -> apply(it)
                     is CyclistEvent.Created -> {}
-                    is CyclistEvent.NotificationSettingsUpdated -> {}
-                    CyclistEvent.NotificationSettingsRemoved -> {}
+                    is CyclistEvent.NotificationSettingsUpdated -> {
+                        notificationToken = it.token
+                    }
+                    CyclistEvent.NotificationSettingsRemoved -> {
+                        notificationToken = null
+                    }
+                    is CyclistEvent.NotificationReady -> {}
                 }
             }
         }

@@ -1,42 +1,76 @@
 [versions]
-ktor = "2.0.3"
-logback = "1.2.6"
-kotlin = "1.7.20"
+# https://ktor.io/changelog/
+ktor = "2.2.2"
+# https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+logback = "1.4.5"
+# https://kotlinlang.org/docs/releases.html
+kotlin = "1.8.0"
+# https://github.com/Kotlin/kotlinx.serialization
 kotlinx-serialization = "1.4.1"
-arrow = "1.1.2"
-compose-version = "1.2.1"
-compose-compiler-version = "1.3.0"
-core-ktx = "1.8.0"
-material = "1.2.1"
+# https://github.com/arrow-kt/arrow
+arrow = "1.1.5"
+# https://developer.android.com/jetpack/androidx/releases/compose
+androidxComposeBom = "2023.01.00"
+# https://developer.android.com/jetpack/androidx/releases/compose-compiler
+compose-compiler-version = "1.4.0"
+# https://developer.android.com/jetpack/androidx/releases/core
+core-ktx = "1.9.0"
+# https://developer.android.com/jetpack/androidx/releases/lifecycle
 lifecycle = "2.5.1"
+# https://developer.android.com/jetpack/androidx/releases/activity
 activityCompose = "1.6.1"
-coroutines = "1.6.3-native-mt"
+# https://kotlinlang.org/docs/multiplatform-mobile-concurrency-and-coroutines.html#multithreaded-coroutines
+coroutines = "1.6.4-native-mt"
+# https://developers.google.com/android/guides/releases
 play-services-maps = "18.1.0"
+# https://github.com/googlemaps/android-maps-ktx
 maps-ktx = "3.4.0"
+# https://github.com/googlemaps/android-maps-compose
 maps-compose = "1.3.0"
-napier = "2.4.0"
+# https://github.com/AAkira/Napier
+napier = "2.6.1"
+# https://github.com/JetBrains/Exposed
 exposed = "0.38.2"
+# https://mvnrepository.com/artifact/org.postgresql/postgresql
 postgresql = "42.4.0"
+# https://mvnrepository.com/artifact/com.zaxxer/HikariCP
 hikari = "5.0.1"
+# https://github.com/Kotlin/kotlinx-datetime
 datetime = "0.4.0"
-kotest = "5.5.3"
-kotest-arrow = "1.2.5"
-kotlinx-uuid = "0.5.0"
-faker = "1.12.0"
+# https://kotest.io/docs/changelog.html
+kotest = "5.5.4"
+# https://mvnrepository.com/artifact/io.kotest.extensions/kotest-assertions-arrow
+kotest-arrow = "1.3.0"
+# https://github.com/benasher44/uuid
+kotlinx-uuid = "0.6.0"
+# https://github.com/serpro69/kotlin-faker
+faker = "1.13.0"
+# https://mvnrepository.com/artifact/io.insert-koin/koin-ktor
 koin = "3.2.2"
-androidxComposeBom = "2022.10.00"
-androidx-junit = "1.1.3"
-androidx-espession = "3.4.0"
+# https://mvnrepository.com/artifact/androidx.test.ext/junit
+androidx-junit = "1.1.5"
+# https://developer.android.com/jetpack/androidx/releases/test
+androidx-espession = "3.5.1"
+# https://mvnrepository.com/artifact/junit/junit
 junit = "4.13.2"
+# https://github.com/airbnb/lottie/blob/master/android-compose.md
 lottie = "5.2.0"
-hilt = "2.44"
+# https://dagger.dev/hilt/gradle-setup
+hilt = "2.44.2"
+# https://developer.android.com/jetpack/androidx/releases/hilt
 hilt-navigation-compose-version = "1.0.0"
+# https://developer.android.com/jetpack/androidx/releases/lifecycle
 viewmodel-version = "2.5.1"
+# https://developer.android.com/jetpack/compose/navigation
 navigation-version = "2.5.3"
-mockk-version = "1.13.2"
+# https://mockk.io/
+mockk-version = "1.13.3"
+# https://github.com/cashapp/turbine
 turbine-version = "0.12.1"
+# https://google.github.io/accompanist/permissions/
 accompanist-version = "0.27.0"
-sqldelight-version = "1.5.4"
+# https://mvnrepository.com/artifact/com.squareup.sqldelight/runtime
+sqldelight-version = "1.5.5"
 
 [libraries]
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
@@ -52,6 +86,7 @@ ktorServerSerializationJson = { module = "io.ktor:ktor-serialization-kotlinx-jso
 ktorServerCio = { module = "io.ktor:ktor-server-cio", version.ref = "ktor" }
 ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
 ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = "ktor" }
+ktor-server-status-page = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor" }
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 
@@ -148,6 +183,7 @@ serverDependencies = [
     "koin-ktor",
     "ktor-client-cio",
     "ktor-client-json",
+    "ktor-server-status-page",
 ]
 
 testDependencies = [

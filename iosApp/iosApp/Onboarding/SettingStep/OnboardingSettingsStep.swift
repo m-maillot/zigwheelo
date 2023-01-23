@@ -14,7 +14,7 @@ struct OnboardingSettingsStep: View {
     static func defaultDate() -> Date {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy/MM/dd HH:mm"
-        return formatter.date(from: "1970/01/01 07:30")!
+        return formatter.date(from: "2022/01/01 07:30") ?? Date()
     }
     
     @State var showModal = false

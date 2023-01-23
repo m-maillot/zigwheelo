@@ -137,10 +137,10 @@ class OnboardUser(
             throw IllegalStateException("")
         }
 
-        validateCyclistUsername(username).tap { usernameValidated ->
+        validateCyclistUsername(username).onRight { usernameValidated ->
             state.value = OnboardingState(welcomeStep = WelcomeStepState(loading = true))
             api.onboard.create(CreateRequest(usernameValidated))
-                .tap {
+                .onRight {
                     database.setupUser(it.cyclistId)
                     database.updateOnboardStep(Step.TRIP)
                     state.value =
@@ -148,10 +148,10 @@ class OnboardUser(
                     delay(1000)
                     state.value = OnboardingState(tripStep = TripStepState())
                 }
-                .tapLeft {
+                .onLeft {
                     state.value = OnboardingState(welcomeStep = WelcomeStepState(error = it))
                 }
-        }.tapLeft {
+        }.onLeft {
             state.value = OnboardingState(welcomeStep = WelcomeStepState(error = it))
         }
     }
@@ -163,11 +163,11 @@ class OnboardUser(
     private suspend fun setupNotification(token: String?, notificationAt: LocalTime?) {
         state.value = OnboardingState(settingStep = SettingStepState(loading = true))
         api.onboard.setupNotification(SetupNotificationRequest(token, notificationAt))
-            .tap {
+            .onRight {
                 database.updateOnboardStep(Step.DONE)
                 state.value = OnboardingState(done = true)
             }
-            .tapLeft {
+            .onLeft {
                 state.value = OnboardingState(settingStep = SettingStepState(error = it))
             }
     }

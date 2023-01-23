@@ -46,6 +46,13 @@ fun Route.cyclist(
                 .map { it.id.toString() }
                 .toRespondAccepted(call)
         }
+
+        post("/cyclist/notification/test") {
+            val cyclistId = (this.call.authentication.principal as AuthenticatedUser).id
+            commandHandler.apply(CyclistCommand.SendNotification(cyclistId, "Test notification"))
+                .map { it.id.toString() }
+                .toRespondAccepted(call)
+        }
     }
 }
 

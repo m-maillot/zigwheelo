@@ -6,6 +6,7 @@
       <env name="JDBC_DATABASE_PASSWORD" value="12345" />
       <env name="JDBC_DATABASE_URL" value="jdbc:postgresql://localhost:9532/zigwheelo" />
       <env name="JDBC_DATABASE_USER" value="zigwheelo" />
+      <env name="GOOGLE_APPLICATION_CREDENTIALS" value="$PROJECT_DIR$/../zigwheelo-fbf4482e4bdc.json" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="fr.racomach.server.ApplicationKt" />
     <module name="ZigWheelo.server.main" />

@@ -20,6 +20,9 @@ sealed class CyclistEvent : Event {
 
     @Serializable
     object NotificationSettingsRemoved : CyclistEvent()
+
+    @Serializable
+    data class NotificationReady(val token: String, val name: String) : CyclistEvent()
 }
 
 

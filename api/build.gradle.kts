@@ -40,6 +40,8 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
+            linkerOpts = mutableListOf("-lsqlite3")
+            binaryOption("bundleId", "fr.racomach.api")
             baseName = "api"
         }
     }
@@ -94,12 +96,25 @@ sqldelight {
     }
 }
 
-dependencies {
-    commonMainApi("dev.icerock.moko:kswift-runtime:0.6.1")
-}
-
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+// issue with sqldelight and Kotlin 1.8 https://github.com/cashapp/sqldelight/issues/3746#issuecomment-1397762235
+afterEvaluate {
+    for (task in tasks) {
+        if (task.group != "sqldelight") continue
+        if (task.name == "generateSqlDelightInterface" || task.name == "verifySqlDelightMigration") {
+            continue
+        }
+
+        if (
+            !task.name.startsWith("generateCommonMain") &&
+            !task.name.startsWith("verifyCommonMain")
+        ) {
+            task.enabled = false
+        }
     }
 }

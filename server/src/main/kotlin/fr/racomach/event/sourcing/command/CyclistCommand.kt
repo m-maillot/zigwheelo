@@ -27,4 +27,9 @@ sealed class CyclistCommand(
         val token: String?,
         val notificationAt: LocalTime?
     ) : CyclistCommand(cyclistId)
+
+    data class SendNotification(
+        val cyclistId: AggregateId,
+        val name: String,
+    ) : CyclistCommand(cyclistId)
 }

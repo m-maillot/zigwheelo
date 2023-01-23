@@ -1,6 +1,7 @@
 import SwiftUI
 import Foundation
 import api
+import FirebaseMessaging
 
 class OnboardUserViewModel: ObservableObject {
     @Published public var state: OnboardingState = OnboardingState(welcomeStep: WelcomeStepState(loading: false, error: nil, username: nil), tripStep: nil, settingStep: nil, done: false)
@@ -24,7 +25,18 @@ class OnboardUserViewModel: ObservableObject {
     
     public func dispatch(_ action: OnboardingAction) {
         print("Dispatch action \(action)")
-        store.dispatch(action: action)
+        if let currentAction = action as? OnboardingAction.UpdateSettings {
+            Messaging.messaging().token { token, error in
+              if let error = error {
+                  print("Error fetching FCM registration token: \(error)")
+              } else if let token = token {
+                  print("FCM registration token: \(token)")
+                  self.store.dispatch(action: OnboardingAction.UpdateSettings(acceptNotification: currentAction.acceptNotification, token: token, notificationAt: currentAction.notificationAt))
+              }
+            }
+        } else {
+            store.dispatch(action: action)
+        }
     }
     
     deinit {

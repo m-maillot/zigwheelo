@@ -33,6 +33,8 @@
 		8373AB43292C303F00B3A0F7 /* trip_light.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB37292C303F00B3A0F7 /* trip_light.json */; };
 		8373AB46292C312600B3A0F7 /* happy_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB44292C312600B3A0F7 /* happy_dark.json */; };
 		8373AB47292C312600B3A0F7 /* happy_light.json in Resources */ = {isa = PBXBuildFile; fileRef = 8373AB45292C312600B3A0F7 /* happy_light.json */; };
+		83978528293B55A500AFB1C9 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 83978527293B55A500AFB1C9 /* FirebaseMessaging */; };
+		8397852A293B7A1200AFB1C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 83978529293B7A1200AFB1C9 /* GoogleService-Info.plist */; };
 		83AF41542928EED9007EFA3D /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF41532928EED9007EFA3D /* MainScreen.swift */; };
 		83AF41582928FE7F007EFA3D /* OboardingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF41572928FE7F007EFA3D /* OboardingContentView.swift */; };
 		83AF415A2928FFCA007EFA3D /* OnboardingProfileStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF41592928FFCA007EFA3D /* OnboardingProfileStep.swift */; };
@@ -90,6 +92,8 @@
 		8373AB37292C303F00B3A0F7 /* trip_light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = trip_light.json; path = ../../../android/src/main/res/raw/trip_light.json; sourceTree = "<group>"; };
 		8373AB44292C312600B3A0F7 /* happy_dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = happy_dark.json; path = ../../../android/src/main/res/raw/happy_dark.json; sourceTree = "<group>"; };
 		8373AB45292C312600B3A0F7 /* happy_light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = happy_light.json; path = ../../../android/src/main/res/raw/happy_light.json; sourceTree = "<group>"; };
+		83978529293B7A1200AFB1C9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8397852B293B7E7A00AFB1C9 /* iosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosApp.entitlements; sourceTree = "<group>"; };
 		83AF41532928EED9007EFA3D /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		83AF41572928FE7F007EFA3D /* OboardingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OboardingContentView.swift; sourceTree = "<group>"; };
 		83AF41592928FFCA007EFA3D /* OnboardingProfileStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingProfileStep.swift; sourceTree = "<group>"; };
@@ -111,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83978528293B55A500AFB1C9 /* FirebaseMessaging in Frameworks */,
 				831C829429316E4A008209A0 /* PermissionsSwiftUILocation in Frameworks */,
 				83AF41B3292ADE92007EFA3D /* Lottie in Frameworks */,
 				831C829629316E4A008209A0 /* PermissionsSwiftUINotification in Frameworks */,
@@ -131,6 +136,7 @@
 		7555FF72242A565900829871 = {
 			isa = PBXGroup;
 			children = (
+				83978529293B7A1200AFB1C9 /* GoogleService-Info.plist */,
 				7555FF7D242A565900829871 /* iosApp */,
 				7555FF7C242A565900829871 /* Products */,
 				7555FFB0242A642200829871 /* Frameworks */,
@@ -148,6 +154,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				8397852B293B7E7A00AFB1C9 /* iosApp.entitlements */,
 				836E486D2935662400028EF0 /* KotlinX */,
 				83AF41B4292ADF92007EFA3D /* Lottie */,
 				83AF41A2292A89FD007EFA3D /* Styles */,
@@ -276,6 +283,7 @@
 				83AF41B2292ADE92007EFA3D /* Lottie */,
 				831C829329316E4A008209A0 /* PermissionsSwiftUILocation */,
 				831C829529316E4A008209A0 /* PermissionsSwiftUINotification */,
+				83978527293B55A500AFB1C9 /* FirebaseMessaging */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* iosApp.app */;
@@ -308,6 +316,7 @@
 			packageReferences = (
 				83AF41B1292ADE92007EFA3D /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				831C829229316E4A008209A0 /* XCRemoteSwiftPackageReference "PermissionsSwiftUI" */,
+				83978526293B55A500AFB1C9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -325,6 +334,7 @@
 			files = (
 				8373AB3C292C303F00B3A0F7 /* notification_light.json in Resources */,
 				8373AB46292C312600B3A0F7 /* happy_dark.json in Resources */,
+				8397852A293B7A1200AFB1C9 /* GoogleService-Info.plist in Resources */,
 				8373AB3F292C303F00B3A0F7 /* sad_dark.json in Resources */,
 				8373AB39292C303F00B3A0F7 /* notification_dark.json in Resources */,
 				8373AB40292C303F00B3A0F7 /* sad_light.json in Resources */,
@@ -517,9 +527,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 23N5PU2TAW;
+				DEVELOPMENT_TEAM = S52X4FW576;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../api/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				INFOPLIST_FILE = iosApp/Info.plist;
@@ -543,9 +554,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 23N5PU2TAW;
+				DEVELOPMENT_TEAM = S52X4FW576;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../api/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				INFOPLIST_FILE = iosApp/Info.plist;
@@ -597,6 +609,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		83978526293B55A500AFB1C9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		83AF41B1292ADE92007EFA3D /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
@@ -617,6 +637,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 831C829229316E4A008209A0 /* XCRemoteSwiftPackageReference "PermissionsSwiftUI" */;
 			productName = PermissionsSwiftUINotification;
+		};
+		83978527293B55A500AFB1C9 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 83978526293B55A500AFB1C9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 		83AF41B2292ADE92007EFA3D /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
