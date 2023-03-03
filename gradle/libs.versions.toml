@@ -71,6 +71,8 @@ turbine-version = "0.12.1"
 accompanist-version = "0.27.0"
 # https://mvnrepository.com/artifact/com.squareup.sqldelight/runtime
 sqldelight-version = "1.5.5"
+# https://github.com/russhwolf/multiplatform-settings
+multiplatform-settings-version = "1.0.0"
 
 [libraries]
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
@@ -162,6 +164,8 @@ sqldelight-runtime = { module = "com.squareup.sqldelight:runtime", version.ref =
 sqldelight-android-driver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqldelight-version" }
 sqldelight-native-driver = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqldelight-version" }
 
+multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings-version" }
+
 faker = { module = "io.github.serpro69:kotlin-faker", version.ref = "faker" }
 
 [bundles]
@@ -229,6 +233,7 @@ apiDependencies = [
     "kotlinx-datetime",
     "arrow",
     "sqldelight-runtime",
+    "multiplatform-settings",
 ]
 
 apiJvmDependencies = [

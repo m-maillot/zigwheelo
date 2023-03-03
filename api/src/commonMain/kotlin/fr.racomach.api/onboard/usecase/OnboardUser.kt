@@ -83,7 +83,7 @@ class OnboardUser(
     CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     private val api = dependencies.api
-    private val database = dependencies.database
+    private val settings = dependencies.settings
 
     private val state =
         MutableStateFlow(OnboardingState(welcomeStep = WelcomeStepState()))
@@ -94,8 +94,7 @@ class OnboardUser(
     override fun observeSideEffect(): Flow<OnboardingEffect> = sideEffect
 
     init {
-        val settings = database.loadSettings()
-        state.value = when (settings.onboardStep) {
+        state.value = when (settings.getOnboardStep()) {
             Step.WELCOME -> OnboardingState(welcomeStep = WelcomeStepState())
             Step.TRIP -> OnboardingState(tripStep = TripStepState())
             Step.SETTINGS -> OnboardingState(settingStep = SettingStepState())
@@ -112,14 +111,14 @@ class OnboardUser(
                 launch { createTrip(action.name) }
             }
             OnboardingAction.SkipTrip -> {
-                database.updateOnboardStep(Step.SETTINGS)
+                settings.updateOnboardStep(Step.SETTINGS)
                 state.value = OnboardingState(settingStep = SettingStepState())
             }
             is OnboardingAction.UpdateSettings -> {
                 launch { setupNotification(action.token, action.notificationAt) }
             }
             OnboardingAction.SkipSettings -> {
-                database.updateOnboardStep(Step.DONE)
+                settings.updateOnboardStep(Step.DONE)
                 state.value = OnboardingState(done = true)
             }
         }
@@ -141,8 +140,8 @@ class OnboardUser(
             state.value = OnboardingState(welcomeStep = WelcomeStepState(loading = true))
             api.onboard.create(CreateRequest(usernameValidated))
                 .onRight {
-                    database.setupUser(it.cyclistId)
-                    database.updateOnboardStep(Step.TRIP)
+                    settings.saveUserId(it.cyclistId)
+                    settings.updateOnboardStep(Step.TRIP)
                     state.value =
                         OnboardingState(welcomeStep = WelcomeStepState(username = username))
                     delay(1000)
@@ -164,7 +163,7 @@ class OnboardUser(
         state.value = OnboardingState(settingStep = SettingStepState(loading = true))
         api.onboard.setupNotification(SetupNotificationRequest(token, notificationAt))
             .onRight {
-                database.updateOnboardStep(Step.DONE)
+                settings.updateOnboardStep(Step.DONE)
                 state.value = OnboardingState(done = true)
             }
             .onLeft {

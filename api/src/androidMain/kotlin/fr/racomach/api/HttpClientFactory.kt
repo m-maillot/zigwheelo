@@ -1,6 +1,6 @@
 package fr.racomach.api
 
-import fr.racomach.api.storage.Database
+import fr.racomach.api.storage.AppSettings
 import io.github.aakira.napier.Napier
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
@@ -12,7 +12,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
 internal actual class HttpClientFactory {
-    actual fun create(database: Database, withLog: Boolean): HttpClient {
+    actual fun create(settings: AppSettings, withLog: Boolean): HttpClient {
         return HttpClient(Android) {
             install(ContentNegotiation) {
                 json(Json {
@@ -22,7 +22,7 @@ internal actual class HttpClientFactory {
                 })
             }
             defaultRequest {
-                database.loadSettings().userId?.let {
+                settings.getUserId()?.let {
                     header("Authorization", "ZigWheelo $it")
                 }
             }
