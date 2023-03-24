@@ -1,7 +1,6 @@
 package fr.racomach.zigwheelo.onboarding.ui.component
 
 import android.os.Build
-import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -23,6 +22,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.accompanist.permissions.*
 import fr.racomach.api.onboard.usecase.SettingStepState
 import fr.racomach.zigwheelo.R
+import fr.racomach.zigwheelo.common.component.TimePicker
 import fr.racomach.zigwheelo.ui.theme.ZigWheeloTypography
 import fr.racomach.zigwheelo.ui.theme.ZigwheeloTheme3
 import kotlinx.datetime.LocalTime
@@ -41,8 +41,6 @@ fun SettingsStep(
     } else {
         grantedPermission
     }
-
-    Log.i("MMA-DEBUG", "Permission state : ${notificationPermissionState.status}")
 
     val timeSelected = remember { mutableStateOf(LocalTime(7, 30)) }
 
@@ -75,7 +73,16 @@ fun SettingsStep(
                 //}
             }
             PermissionStatus.Granted -> {
-                TimePicker(onChange = { timeSelected.value = it })
+                TimePicker(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = {
+                        Text(
+                            modifier = Modifier.padding(bottom = 8.dp),
+                            text = "Recevoir la notification vers :"
+                        )
+                    },
+                    onChange = { timeSelected.value = it }
+                )
                 Button(
                     onClick = { onAcceptNotification(timeSelected.value) },
                     enabled = !state.loading,

@@ -11,11 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import fr.racomach.api.common.Location
 import fr.racomach.api.onboard.model.Step
 import fr.racomach.api.onboard.usecase.OnboardingAction
 import fr.racomach.api.onboard.usecase.OnboardingState
 import fr.racomach.api.onboard.usecase.WelcomeStepState
 import fr.racomach.zigwheelo.ui.theme.ZigwheeloTheme3
+import kotlin.time.Duration.Companion.minutes
 
 @Composable
 fun MainScreen(
@@ -39,7 +41,19 @@ fun MainScreen(
             }
             Step.TRIP -> TripStep(
                 modifier = Modifier.padding(16.dp),
-                onSkip = { dispatch(OnboardingAction.SkipTrip) }
+                state = state.tripStep!!,
+                onSkip = { dispatch(OnboardingAction.SkipTrip) },
+                onSubmit = {
+                    dispatch(
+                        OnboardingAction.CreateTrip(
+                            Location(it.start.latitude, it.start.longitude),
+                            Location(it.finish.latitude, it.finish.longitude),
+                            it.startAt,
+                            it.durationInMinutes.minutes,
+                            it.roundTripAt
+                        )
+                    )
+                }
             )
             Step.SETTINGS -> SettingsStep(
                 modifier = Modifier.padding(16.dp),

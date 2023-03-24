@@ -3,9 +3,10 @@ package fr.racomach.api.onboard.usecase
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import com.benasher44.uuid.Uuid
 import fr.racomach.api.ZigWheeloDependencies
+import fr.racomach.api.common.Location
 import fr.racomach.api.error.ErrorResponse
+import fr.racomach.api.onboard.api.dto.AddTripRequest
 import fr.racomach.api.onboard.api.dto.CreateRequest
 import fr.racomach.api.onboard.api.dto.SetupNotificationRequest
 import fr.racomach.api.onboard.model.Step
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalTime
+import kotlin.time.Duration
 
 data class WelcomeStepState(
     val loading: Boolean = false,
@@ -32,7 +34,6 @@ data class WelcomeStepState(
 data class TripStepState(
     val loading: Boolean = false,
     val error: ErrorResponse? = null,
-    val id: Uuid? = null,
 )
 
 data class SettingStepState(
@@ -61,7 +62,15 @@ data class OnboardingState(
 
 sealed class OnboardingAction : Action {
     data class CreateUser(val username: String?) : OnboardingAction()
-    data class CreateTrip(val name: String?) : OnboardingAction()
+    data class CreateTrip(
+        val from: Location,
+        val to: Location,
+        val schedule: LocalTime,
+        val duration: Duration,
+        val roundTripStart: LocalTime? = null,
+        val name: String? = null,
+    ) : OnboardingAction()
+
     object SkipTrip : OnboardingAction()
     data class UpdateSettings(
         val acceptNotification: Boolean = true,
@@ -108,7 +117,7 @@ class OnboardUser(
                 launch { createCyclist(action.username) }
             }
             is OnboardingAction.CreateTrip -> {
-                launch { createTrip(action.name) }
+                launch { createTrip(action) }
             }
             OnboardingAction.SkipTrip -> {
                 settings.updateOnboardStep(Step.SETTINGS)
@@ -155,8 +164,25 @@ class OnboardUser(
         }
     }
 
-    private fun createTrip(name: String?) {
+    private suspend fun createTrip(action: OnboardingAction.CreateTrip) {
         state.value = OnboardingState(tripStep = TripStepState(loading = true))
+        api.onboard.addTrip(
+            AddTripRequest(
+                action.from,
+                action.to,
+                action.schedule,
+                action.duration,
+                action.roundTripStart,
+                action.name
+            )
+        )
+            .onRight {
+                settings.updateOnboardStep(Step.SETTINGS)
+                state.value = OnboardingState(settingStep = SettingStepState())
+            }
+            .onLeft {
+                state.value = OnboardingState(tripStep = TripStepState(error = it))
+            }
     }
 
     private suspend fun setupNotification(token: String?, notificationAt: LocalTime?) {

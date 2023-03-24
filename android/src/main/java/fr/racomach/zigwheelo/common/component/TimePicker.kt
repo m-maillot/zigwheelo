@@ -1,14 +1,11 @@
-package fr.racomach.zigwheelo.onboarding.ui.component
+package fr.racomach.zigwheelo.common.component
 
 import android.app.TimePickerDialog
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -25,35 +22,40 @@ import kotlinx.datetime.LocalTime
 @Composable
 fun TimePicker(
     modifier: Modifier = Modifier,
-    defaultValue: LocalTime = LocalTime(7, 30),
+    label: @Composable ColumnScope.() -> Unit,
+    defaultValue: LocalTime? = null,
     onChange: (LocalTime) -> Unit,
 ) {
     val timeSelected = remember { mutableStateOf(defaultValue) }
+    val error = remember { mutableStateOf<String?>(null) }
 
     val timePickerDialog = TimePickerDialog(
         LocalContext.current,
         { _, hour: Int, minute: Int ->
             timeSelected.value = LocalTime(hour, minute)
-            onChange(timeSelected.value)
-        }, timeSelected.value.hour, timeSelected.value.minute, true
+            onChange(LocalTime(hour, minute))
+        }, timeSelected.value?.hour ?: 12, timeSelected.value?.minute ?: 0, true
     )
 
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(modifier = Modifier.padding(bottom = 8.dp), text = "Recevoir la notification vers :")
+        label()
         Row(
             modifier = Modifier
+                .defaultMinSize(minWidth = 200.dp)
                 .border(
                     width = 3.dp,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     shape = RoundedCornerShape(8.dp)
                 )
+                .clickable { timePickerDialog.show() },
+            horizontalArrangement = Arrangement.Center,
         ) {
             Text(
                 modifier = Modifier.padding(8.dp),
-                text = timeSelected.value.hour.toString().padStart(2, '0'),
+                text = timeSelected.value?.hour?.toString()?.padStart(2, '0') ?: "--",
                 style = ZigWheeloTypography.displayLarge
             )
             Text(
@@ -63,12 +65,12 @@ fun TimePicker(
             )
             Text(
                 modifier = Modifier.padding(8.dp),
-                text = timeSelected.value.minute.toString().padStart(2, '0'),
+                text = timeSelected.value?.minute?.toString()?.padStart(2, '0') ?: "--",
                 style = ZigWheeloTypography.displayLarge
             )
         }
-        OutlinedButton(onClick = { timePickerDialog.show() }) {
-            Text("Changer l'heure")
+        error.value?.let {
+            Text(text = "Erreur: $it")
         }
     }
 }
@@ -79,6 +81,30 @@ fun TimePicker(
 @Composable
 private fun TimePickerPreview() {
     ZigwheeloTheme3 {
-        TimePicker(onChange = {})
+        Column {
+            TimePicker(
+                label = {
+                    Text(
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        text = "Recevoir la notification vers :"
+                    )
+                }, onChange = {})
+            TimePicker(
+                label = {
+                    Text(
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        text = "Recevoir la notification vers :"
+                    )
+                }, onChange = {}, defaultValue = LocalTime(7, 30)
+            )
+            TimePicker(
+                label = {
+                    Text(
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        text = "Recevoir la notification vers :"
+                    )
+                }, onChange = {}, defaultValue = LocalTime(14, 59)
+            )
+        }
     }
 } 
