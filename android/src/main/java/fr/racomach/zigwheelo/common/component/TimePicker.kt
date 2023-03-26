@@ -1,18 +1,16 @@
 package fr.racomach.zigwheelo.common.component
 
-import android.app.TimePickerDialog
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.racomach.zigwheelo.ui.theme.ZigWheeloTypography
@@ -29,13 +27,7 @@ fun TimePicker(
     val timeSelected = remember { mutableStateOf(defaultValue) }
     val error = remember { mutableStateOf<String?>(null) }
 
-    val timePickerDialog = TimePickerDialog(
-        LocalContext.current,
-        { _, hour: Int, minute: Int ->
-            timeSelected.value = LocalTime(hour, minute)
-            onChange(LocalTime(hour, minute))
-        }, timeSelected.value?.hour ?: 12, timeSelected.value?.minute ?: 0, true
-    )
+    val openDialog = remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier,
@@ -50,7 +42,7 @@ fun TimePicker(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     shape = RoundedCornerShape(8.dp)
                 )
-                .clickable { timePickerDialog.show() },
+                .clickable { openDialog.value = true },
             horizontalArrangement = Arrangement.Center,
         ) {
             Text(
@@ -73,10 +65,70 @@ fun TimePicker(
             Text(text = "Erreur: $it")
         }
     }
+
+    TimePickerModal(
+        isOpen = openDialog.value,
+        onSelect = {
+            timeSelected.value = it
+            openDialog.value = false
+            if (it != null) {
+                onChange(it)
+            }
+        },
+        onCancel = { openDialog.value = false }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TimePickerModal(
+    modifier: Modifier = Modifier,
+    isOpen: Boolean,
+    onSelect: (LocalTime?) -> Unit,
+    onCancel: () -> Unit,
+) {
+    if (isOpen) {
+        val timePickerState = rememberTimePickerState(
+            initialHour = 12,
+            initialMinute = 0,
+            is24Hour = true,
+        )
+
+        DatePickerDialog(
+            onDismissRequest = onCancel,
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onSelect(
+                            LocalTime(
+                                hour = timePickerState.hour,
+                                minute = timePickerState.minute
+                            )
+                        )
+                    },
+                ) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = onCancel
+                ) {
+                    Text("Cancel")
+                }
+            }
+        ) {
+            TimePicker(
+                modifier = modifier,
+                state = timePickerState,
+            )
+        }
+    }
 }
 
 @Preview(
-    showBackground = true
+    showBackground = true,
+    device = Devices.PIXEL_4,
 )
 @Composable
 private fun TimePickerPreview() {

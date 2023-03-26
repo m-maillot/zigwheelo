@@ -75,6 +75,7 @@ sqldelight-version = "1.5.5"
 multiplatform-settings-version = "1.0.0"
 # https://developer.android.com/jetpack/androidx/releases/compose-material3
 android-material3-version = "1.1.0-beta01"
+play-services-location-version = "21.0.1"
 
 [libraries]
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
@@ -134,12 +135,14 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+
 androidx-compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "viewmodel-version" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-version" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "android-material3-version" }
-
 androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espession" }
+
+android-play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location-version"}
 android-lottie = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
 android-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 android-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -277,6 +280,7 @@ androidDependencies = [
     "androidx-compose-viewmodel",
     "androidx-navigation-compose",
     "accompanist-permissions",
+    "android-play-services-location",
 ]
 
 androidKaptDependencies = [

@@ -1,6 +1,8 @@
 package fr.racomach.zigwheelo.common.component
 
+import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -11,11 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 import fr.racomach.zigwheelo.ui.theme.ZigWheeloTypography
 import fr.racomach.zigwheelo.utils.getBitmapDescriptor
+import kotlinx.coroutines.tasks.await
 
 data class MarkerOptions(
     @DrawableRes val icon: Int? = null,
@@ -45,6 +50,24 @@ fun SelectPosition(
         position = CameraPosition.fromLatLngZoom(defaultPosition, 17f)
     }
 
+    val fusedLocationClient: FusedLocationProviderClient =
+        LocationServices.getFusedLocationProviderClient(LocalContext.current)
+
+    LaunchedEffect(notificationPermissionState.allPermissionsGranted) {
+        try {
+            @SuppressLint("MissingPermission")
+            val locationResult = fusedLocationClient.lastLocation.await()
+            cameraPositionState.position = CameraPosition.fromLatLngZoom(
+                LatLng(
+                    locationResult.latitude,
+                    locationResult.longitude
+                ),
+                cameraPositionState.position.zoom,
+            )
+        } catch (e: Exception) {
+            Log.e("MMA-DEBUG", "Failed to get location", e)
+        }
+    }
 
     val startPoint = remember { mutableStateOf<LatLng?>(null) }
 
